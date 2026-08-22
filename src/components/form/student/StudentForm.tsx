@@ -2,13 +2,13 @@ import { DatePicker, Form, type FormInstance } from "antd";
 import type { Dayjs } from "dayjs";
 import { Input, PasswordInput, Select, TextArea } from "@/components/ui";
 import { GENDER_OPTIONS, STUDENT_STATUS_OPTIONS } from "@/constants/options";
-import { useRoleOptions } from "@/hooks/useRoleOptions";
+import StatusField from "@/components/form/shared/StatusField";
 import type { Gender, StudentStatus } from "@/types/models";
 
 export interface StudentFormValues {
   email?: string;
   password?: string;
-  roleId?: string;
+  isLoginActive?: boolean;
   firstName: string;
   lastName: string;
   phone?: string;
@@ -29,7 +29,6 @@ interface StudentFormProps {
 
 /** Admitting a student creates their login too, so they can sign in from day one. */
 export default function StudentForm({ form, onFinish, isEditing }: StudentFormProps) {
-  const { options: roleOptions, isLoading } = useRoleOptions();
 
   return (
     <Form<StudentFormValues>
@@ -37,15 +36,21 @@ export default function StudentForm({ form, onFinish, isEditing }: StudentFormPr
       layout="vertical"
       requiredMark="optional"
       onFinish={onFinish}
-      initialValues={{ status: "ACTIVE" }}
+      initialValues={{ status: "ACTIVE", isLoginActive: true }}
     >
-      {!isEditing && (
-        <section className="mb-2">
-          <h3 className="mb-3 text-caption font-semibold uppercase tracking-wide text-gray-500">
-            Login
-          </h3>
+      {/*
+        A student is an account, not a profile that needs one made for it
+        somewhere else -- so whether they can sign in is decided right here. The
+        role is not asked for: an admission signs in as a STUDENT, and the API
+        looks that up rather than making it a second decision.
+      */}
+      <section className="mb-2">
+        <h3 className="mb-3 text-caption font-semibold uppercase tracking-wide text-gray-500">
+          Login
+        </h3>
 
-          <div className="grid grid-cols-1 gap-x-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-x-4 sm:grid-cols-2">
+          {!isEditing && (
             <Form.Item
               name="email"
               label="Email"
@@ -56,16 +61,18 @@ export default function StudentForm({ form, onFinish, isEditing }: StudentFormPr
             >
               <Input placeholder="student@institute.com" />
             </Form.Item>
+          )}
 
-            <Form.Item
-              name="roleId"
-              label="Role"
-              rules={[{ required: true, message: "Pick the role this account signs in with." }]}
-            >
-              <Select options={roleOptions} loading={isLoading} placeholder="Select a role" />
-            </Form.Item>
-          </div>
+          <StatusField
+            name="isLoginActive"
+            label="Can sign in"
+            checkedLabel="Yes"
+            uncheckedLabel="No"
+            extra="Switch off to keep the record but stop the account signing in."
+          />
+        </div>
 
+        {!isEditing && (
           <Form.Item
             name="password"
             label="Password"
@@ -73,8 +80,8 @@ export default function StudentForm({ form, onFinish, isEditing }: StudentFormPr
           >
             <PasswordInput placeholder="Leave empty to generate" autoComplete="new-password" />
           </Form.Item>
-        </section>
-      )}
+        )}
+      </section>
 
       <h3 className="mb-3 text-caption font-semibold uppercase tracking-wide text-gray-500">
         Student
@@ -121,7 +128,11 @@ export default function StudentForm({ form, onFinish, isEditing }: StudentFormPr
           <Input maxLength={20} />
         </Form.Item>
 
-        <Form.Item name="status" label="Status">
+        <Form.Item
+          name="status"
+          label="Enrolment status"
+          extra="Where they are in their time here. Separate from whether they can sign in."
+        >
           <Select options={STUDENT_STATUS_OPTIONS} />
         </Form.Item>
       </div>

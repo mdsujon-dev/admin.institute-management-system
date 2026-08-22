@@ -1,4 +1,6 @@
 import type { ColumnsType } from "antd/es/table";
+import LoginStatusSwitch from "@/components/rbac/LoginStatusSwitch";
+import PermissionsButton from "@/components/rbac/PermissionsButton";
 import { InitialsAvatar, StatusTag, Text } from "@/components/ui";
 import RowActions from "@/components/ui/DataTable/RowActions";
 import type { Student } from "@/types/models";
@@ -7,9 +9,18 @@ import { formatDate, fullName } from "@/utils/format";
 interface Options {
   onEdit: (student: Student) => void;
   onDelete: (student: Student) => void;
+  /** Flips whether this student's account can sign in, from the row itself. */
+  onToggleLogin: (student: Student, next: boolean) => void;
+  /** The row whose login is being saved right now, if any. */
+  togglingId?: string | null;
 }
 
-export function useStudentColumns({ onEdit, onDelete }: Options): ColumnsType<Student> {
+export function useStudentColumns({
+  onEdit,
+  onDelete,
+  onToggleLogin,
+  togglingId,
+}: Options): ColumnsType<Student> {
   return [
     {
       title: "Student",
@@ -65,18 +76,34 @@ export function useStudentColumns({ onEdit, onDelete }: Options): ColumnsType<St
       render: (_, student) => <StatusTag status={student.status} />,
     },
     {
+      title: "Can sign in",
+      key: "loginStatus",
+      responsive: ["md"],
+      render: (_, student) => (
+        <LoginStatusSwitch
+          status={student.user?.status}
+          loading={togglingId === student.id}
+          onChange={(next) => onToggleLogin(student, next)}
+        />
+      ),
+    },
+    {
       title: "",
       key: "actions",
       align: "right",
       fixed: "right",
-      width: 96,
+      width: 150,
       render: (_, student) => (
-        <RowActions
-          onEdit={() => onEdit(student)}
-          onDelete={() => onDelete(student)}
-          editPermission="student.update"
-          deletePermission="student.delete"
-        />
+        <div className="flex items-center justify-end gap-2">
+          <PermissionsButton userId={student.user?.id} />
+
+          <RowActions
+            onEdit={() => onEdit(student)}
+            onDelete={() => onDelete(student)}
+            editPermission="student.update"
+            deletePermission="student.delete"
+          />
+        </div>
       ),
     },
   ];

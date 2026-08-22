@@ -7,7 +7,8 @@ import type { Gender, Student, StudentStatus } from "@/types/models";
 export interface CreateStudentPayload {
   email: string;
   password?: string;
-  roleId: string;
+  /** Optional: an admission signs in as a STUDENT, which the API looks up. */
+  roleId?: string;
   firstName: string;
   lastName: string;
   phone?: string;
@@ -18,6 +19,8 @@ export interface CreateStudentPayload {
   guardianName?: string;
   guardianPhone?: string;
   status?: StudentStatus;
+  /** Whether the account this creates may sign in. */
+  isLoginActive?: boolean;
 }
 
 export type UpdateStudentPayload = Partial<

@@ -3,7 +3,7 @@ import { useState, type ReactNode } from "react";
 import { Button, Card, ConfirmModal, DataTable, FilterBar, Select } from "@/components/ui";
 import Can from "@/components/rbac/Can";
 import StudentFormModal from "@/components/modal/student/StudentFormModal";
-import TemporaryPasswordModal from "@/components/modal/user/TemporaryPasswordModal";
+import TemporaryPasswordModal from "@/components/modal/shared/TemporaryPasswordModal";
 import { useStudentColumns } from "@/hooks/useStudentColumns";
 import { GENDER_OPTIONS, STUDENT_STATUS_OPTIONS } from "@/constants/options";
 import { useCrudDialogs } from "@/hooks/useCrudDialogs";
@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/useToast";
 import {
   useDeleteStudentMutation,
   useGetStudentsQuery,
+  useUpdateStudentMutation,
 } from "@/redux/features/students/students.api";
 import type { Student } from "@/types/models";
 import { getErrorMessage } from "@/utils/apiError";
@@ -47,9 +48,39 @@ export default function StudentList({
   const { data, isLoading, isFetching, error, refetch } = useGetStudentsQuery(list.params);
   const [deleteStudent, { isLoading: isDeleting }] = useDeleteStudentMutation();
 
+  const [updateStudent] = useUpdateStudentMutation();
+
+  /**
+   * Which row is saving, so the switch that was clicked spins and the rest of
+   * the table stays usable.
+   */
+  const [togglingId, setTogglingId] = useState<string | null>(null);
+
+  const handleToggleLogin = async (student: Student, next: boolean) => {
+    setTogglingId(student.id);
+
+    try {
+      await updateStudent({
+        id: student.id,
+        body: { isLoginActive: next },
+      }).unwrap();
+
+      toast.success(
+        next ? "Sign in enabled" : "Sign in disabled",
+        `${fullName(student)} ${next ? "can" : "cannot"} sign in`,
+      );
+    } catch (error) {
+      toast.error("Could not change the login", getErrorMessage(error));
+    } finally {
+      setTogglingId(null);
+    }
+  };
+
   const columns = useStudentColumns({
     onEdit: dialogs.openEdit,
     onDelete: dialogs.openDelete,
+    onToggleLogin: (student, next) => void handleToggleLogin(student, next),
+    togglingId,
   });
 
   const handleDelete = async () => {

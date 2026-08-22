@@ -3,7 +3,7 @@ import { useState, type ReactNode } from "react";
 import { Button, Card, ConfirmModal, DataTable, FilterBar, Select } from "@/components/ui";
 import Can from "@/components/rbac/Can";
 import EmployeeFormModal from "@/components/modal/employee/EmployeeFormModal";
-import TemporaryPasswordModal from "@/components/modal/user/TemporaryPasswordModal";
+import TemporaryPasswordModal from "@/components/modal/shared/TemporaryPasswordModal";
 import { useEmployeeColumns } from "@/hooks/useEmployeeColumns";
 import { EMPLOYEE_STATUS_OPTIONS } from "@/constants/options";
 import { useCrudDialogs } from "@/hooks/useCrudDialogs";
@@ -13,7 +13,9 @@ import { useToast } from "@/hooks/useToast";
 import {
   useDeleteEmployeeMutation,
   useGetEmployeesQuery,
+  useUpdateEmployeeMutation,
 } from "@/redux/features/employees/employees.api";
+import { useAppSelector } from "@/redux/hooks";
 import type { Employee } from "@/types/models";
 import { getErrorMessage } from "@/utils/apiError";
 import { fullName } from "@/utils/format";
@@ -48,10 +50,41 @@ export default function EmployeeList({
 
   const { data, isLoading, isFetching, error, refetch } = useGetEmployeesQuery(list.params);
   const [deleteEmployee, { isLoading: isDeleting }] = useDeleteEmployeeMutation();
+  const [updateEmployee] = useUpdateEmployeeMutation();
+  const currentUserId = useAppSelector((state) => state.auth.user?.id);
+
+  /**
+   * Which row is saving, so the switch that was clicked spins and the rest of
+   * the table stays usable.
+   */
+  const [togglingId, setTogglingId] = useState<string | null>(null);
+
+  const handleToggleLogin = async (employee: Employee, next: boolean) => {
+    setTogglingId(employee.id);
+
+    try {
+      await updateEmployee({
+        id: employee.id,
+        body: { isLoginActive: next },
+      }).unwrap();
+
+      toast.success(
+        next ? "Sign in enabled" : "Sign in disabled",
+        `${fullName(employee)} ${next ? "can" : "cannot"} sign in`,
+      );
+    } catch (error) {
+      toast.error("Could not change the login", getErrorMessage(error));
+    } finally {
+      setTogglingId(null);
+    }
+  };
 
   const columns = useEmployeeColumns({
     onEdit: dialogs.openEdit,
     onDelete: dialogs.openDelete,
+    onToggleLogin: (employee, next) => void handleToggleLogin(employee, next),
+    togglingId,
+    currentUserId,
   });
 
   const handleDelete = async () => {

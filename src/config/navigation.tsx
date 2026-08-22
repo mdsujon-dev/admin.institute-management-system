@@ -4,7 +4,6 @@ import {
   ScrollText,
   Settings,
   UsersRound,
-  Wrench,
 } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -81,19 +80,6 @@ export const NAV_SECTIONS: NavSection[] = [
     key: "administration",
     title: "Administration",
     items: [
-      {
-        key: "master-setup",
-        label: "Master setup",
-        icon: <Wrench />,
-        children: [
-          {
-            key: "users",
-            label: "Users",
-            path: "/users",
-            permission: "user.read",
-          },
-        ],
-      },
       {
         key: "logs",
         label: "Logs",

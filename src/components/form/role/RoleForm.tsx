@@ -1,5 +1,7 @@
-import { Form, Switch, type FormInstance } from "antd";
+import { Form, type FormInstance } from "antd";
 import { Input, TextArea } from "@/components/ui";
+
+import StatusField from "@/components/form/shared/StatusField";
 
 export interface RoleFormValues {
   name: string;
@@ -52,15 +54,10 @@ export default function RoleForm({ form, onFinish, isSystemRole }: RoleFormProps
         </Form.Item>
       </div>
 
-      <Form.Item
-        name="isActive"
-        label="Status"
-        valuePropName="checked"
+      <StatusField
         className="mb-0"
         extra="A switched off role stays with the accounts that already have it, but cannot be given to anybody new."
-      >
-        <Switch checkedChildren="Active" unCheckedChildren="Inactive" />
-      </Form.Item>
+      />
     </Form>
   );
 }

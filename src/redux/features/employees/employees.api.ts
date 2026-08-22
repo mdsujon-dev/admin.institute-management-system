@@ -19,9 +19,15 @@ export interface CreateEmployeePayload {
   salary?: number;
   designationId?: string;
   status?: EmployeeStatus;
+  /** Whether the account this creates may sign in. */
+  isLoginActive?: boolean;
 }
 
-/** The login half is not editable here -- Users owns role and status. */
+/**
+ * Everything except the email and the password, which change through flows of
+ * their own. Moving somebody to another designation moves their role with it,
+ * so that is handled by the API rather than sent from here.
+ */
 export type UpdateEmployeePayload = Partial<
   Omit<CreateEmployeePayload, "email" | "password" | "roleId">
 >;

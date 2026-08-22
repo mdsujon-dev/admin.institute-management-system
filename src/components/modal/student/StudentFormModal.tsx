@@ -5,7 +5,6 @@ import { FormModal } from "@/components/ui";
 import StudentForm, {
   type StudentFormValues,
 } from "@/components/form/student/StudentForm";
-import { useRoleOptions } from "@/hooks/useRoleOptions";
 import { useToast } from "@/hooks/useToast";
 import {
   useCreateStudentMutation,
@@ -32,7 +31,6 @@ export default function StudentFormModal({
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const toast = useToast();
-  const { roles } = useRoleOptions();
   const [createStudent, { isLoading: isCreating }] = useCreateStudentMutation();
   const [updateStudent, { isLoading: isUpdating }] = useUpdateStudentMutation();
 
@@ -43,10 +41,6 @@ export default function StudentFormModal({
 
     if (!student) {
       form.resetFields();
-      // New admissions default to the seeded STUDENT role, which is the choice
-      // nine times out of ten.
-      const studentRole = roles.find((role) => role.name === "STUDENT");
-      if (studentRole) form.setFieldValue("roleId", studentRole.id);
       return;
     }
 
@@ -61,8 +55,9 @@ export default function StudentFormModal({
       guardianPhone: student.guardianPhone ?? "",
       address: student.address ?? "",
       status: student.status,
+      isLoginActive: student.user?.status === "ACTIVE",
     });
-  }, [open, student, form, roles]);
+  }, [open, student, form]);
 
   const handleFinish = async (values: StudentFormValues) => {
     setErrorMessage(null);
@@ -80,6 +75,7 @@ export default function StudentFormModal({
       dateOfBirth: toApiDate(values.dateOfBirth),
       admissionDate: toApiDate(values.admissionDate),
       status: values.status,
+      isLoginActive: values.isLoginActive,
     };
 
     try {
@@ -91,7 +87,6 @@ export default function StudentFormModal({
           ...profile,
           email: values.email!.trim().toLowerCase(),
           password: values.password?.trim() || undefined,
-          roleId: values.roleId!,
         }).unwrap();
 
         toast.success("Student admitted", `${created.firstName} ${created.lastName}`);

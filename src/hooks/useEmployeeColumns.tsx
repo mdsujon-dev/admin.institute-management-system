@@ -1,4 +1,6 @@
 import type { ColumnsType } from "antd/es/table";
+import LoginStatusSwitch from "@/components/rbac/LoginStatusSwitch";
+import PermissionsButton from "@/components/rbac/PermissionsButton";
 import { InitialsAvatar, StatusTag, Text } from "@/components/ui";
 import RowActions from "@/components/ui/DataTable/RowActions";
 import type { Employee } from "@/types/models";
@@ -7,9 +9,21 @@ import { formatCurrency, formatDate, fullName } from "@/utils/format";
 interface Options {
   onEdit: (employee: Employee) => void;
   onDelete: (employee: Employee) => void;
+  /** Flips whether this employee's account can sign in, from the row itself. */
+  onToggleLogin: (employee: Employee, next: boolean) => void;
+  /** The row whose login is being saved right now, if any. */
+  togglingId?: string | null;
+  /** The signed in account, which may not disable itself. */
+  currentUserId?: string;
 }
 
-export function useEmployeeColumns({ onEdit, onDelete }: Options): ColumnsType<Employee> {
+export function useEmployeeColumns({
+  onEdit,
+  onDelete,
+  onToggleLogin,
+  togglingId,
+  currentUserId,
+}: Options): ColumnsType<Employee> {
   return [
     {
       title: "Employee",
@@ -74,18 +88,35 @@ export function useEmployeeColumns({ onEdit, onDelete }: Options): ColumnsType<E
       render: (_, employee) => <StatusTag status={employee.status} />,
     },
     {
+      title: "Can sign in",
+      key: "loginStatus",
+      responsive: ["md"],
+      render: (_, employee) => (
+        <LoginStatusSwitch
+          status={employee.user?.status}
+          loading={togglingId === employee.id}
+          isSelf={Boolean(employee.user?.id) && employee.user?.id === currentUserId}
+          onChange={(next) => onToggleLogin(employee, next)}
+        />
+      ),
+    },
+    {
       title: "",
       key: "actions",
       align: "right",
       fixed: "right",
-      width: 96,
+      width: 150,
       render: (_, employee) => (
-        <RowActions
-          onEdit={() => onEdit(employee)}
-          onDelete={() => onDelete(employee)}
-          editPermission="employee.update"
-          deletePermission="employee.delete"
-        />
+        <div className="flex items-center justify-end gap-2">
+          <PermissionsButton userId={employee.user?.id} />
+
+          <RowActions
+            onEdit={() => onEdit(employee)}
+            onDelete={() => onDelete(employee)}
+            editPermission="employee.update"
+            deletePermission="employee.delete"
+          />
+        </div>
       ),
     },
   ];

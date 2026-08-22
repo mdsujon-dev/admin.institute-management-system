@@ -46,7 +46,7 @@ export default function UserPermissionsPage() {
     try {
       await setPermissions({ id: userId, permissions: extras }).unwrap();
       toast.success("Permissions updated", user.email);
-      navigate("/users");
+      navigate(backPath);
     } catch (requestError) {
       setSaveError(getErrorMessage(requestError));
     }
@@ -54,21 +54,39 @@ export default function UserPermissionsPage() {
 
   const fromRole = user?.rolePermissions ?? [];
 
+  /**
+   * Back goes to the list the account belongs to. An account is always an
+   * employee or a student, so there is no third place it could have come from.
+   */
+  const backPath = user?.student ? "/students" : "/employees";
+  const backLabel = user?.student ? "Back to students" : "Back to employees";
+
+  /** The person, when the account has a profile; the email is the fallback. */
+  const accountName = user
+    ? [user.employee ?? user.student]
+        .filter(Boolean)
+        .map((profile) => `${profile!.firstName} ${profile!.lastName}`)[0] ?? user.email
+    : "";
+
   return (
     <>
       <PageMeta
-        title={user ? `${user.email} permissions` : "Account permissions"}
+        title={user ? `${accountName} permissions` : "Account permissions"}
         description="Extra permissions granted to one account"
       />
 
       <PageHeader
-        title={user ? user.email : "Account permissions"}
-        description="Extra permissions for this account, on top of what its role already allows."
+        title={user ? accountName : "Account permissions"}
+        description={
+          user
+            ? `${user.email} — extra permissions on top of what the ${humanise(user.role.name)} role already allows.`
+            : "Extra permissions for this account, on top of what its role already allows."
+        }
         actions={
           <>
-            <Link to="/users">
+            <Link to={backPath}>
               <Button variant="secondary" icon={<ArrowLeft />}>
-                Back to users
+                {backLabel}
               </Button>
             </Link>
             <Button loading={isSaving} disabled={!user} onClick={handleSave}>

@@ -1,6 +1,8 @@
-import { Form, Switch, type FormInstance } from "antd";
+import { Form, type FormInstance } from "antd";
 import { Input, Select, TextArea } from "@/components/ui";
 import { useRoleOptions } from "@/hooks/useRoleOptions";
+
+import StatusField from "@/components/form/shared/StatusField";
 
 export interface DesignationFormValues {
   title: string;
@@ -63,14 +65,7 @@ export default function DesignationForm({ form, onFinish }: DesignationFormProps
           />
         </Form.Item>
 
-        <Form.Item
-          name="isActive"
-          label="Status"
-          valuePropName="checked"
-          extra="A switched off designation is kept for current staff, but is not offered to new ones."
-        >
-          <Switch checkedChildren="Active" unCheckedChildren="Inactive" />
-        </Form.Item>
+        <StatusField extra="A switched off designation is kept for current staff, but is not offered to new ones." />
       </div>
 
       <Form.Item name="description" label="Description" className="mb-0">

@@ -1,17 +1,27 @@
 import { Form } from "antd";
+import StatusField from "@/components/form/shared/StatusField";
 import { Input, PasswordInput, Text } from "@/components/ui";
 import { useDesignationOptions } from "@/hooks/useDesignationOptions";
 import { humanise } from "@/utils/format";
 
+interface EmployeeLoginFieldsProps {
+  /** On edit the email and password are gone, but the rest still applies. */
+  isEditing?: boolean;
+}
+
 /**
- * The login half of a new staff member. Only shown when creating: afterwards the
- * email, password and role belong to the users screen, because changing them has
- * consequences a profile form should not hide.
+ * The login half of a staff member.
  *
- * There is no role picker here on purpose -- the designation chosen below
- * carries the role, so the two can never be set to disagree.
+ * There is no separate users screen to go to: an employee *is* an account, so
+ * whether they can sign in and which role they sign in with is decided here,
+ * next to everything else about them.
+ *
+ * The role is shown but not chosen -- the designation carries it, so the two
+ * can never be set to disagree. The email and password only appear while
+ * creating, because changing either has consequences (old sessions stop
+ * working) that a profile form should not hide inside a save.
  */
-export default function EmployeeLoginFields() {
+export default function EmployeeLoginFields({ isEditing }: EmployeeLoginFieldsProps) {
   const { designations } = useDesignationOptions();
 
   return (
@@ -21,16 +31,18 @@ export default function EmployeeLoginFields() {
       </h3>
 
       <div className="grid grid-cols-1 gap-x-4 sm:grid-cols-2">
-        <Form.Item
-          name="email"
-          label="Email"
-          rules={[
-            { required: true, message: "An email is required to create the login." },
-            { type: "email", message: "That does not look like an email address." },
-          ]}
-        >
-          <Input placeholder="teacher@institute.com" />
-        </Form.Item>
+        {!isEditing && (
+          <Form.Item
+            name="email"
+            label="Email"
+            rules={[
+              { required: true, message: "An email is required to create the login." },
+              { type: "email", message: "That does not look like an email address." },
+            ]}
+          >
+            <Input placeholder="teacher@institute.com" />
+          </Form.Item>
+        )}
 
         <Form.Item
           noStyle
@@ -54,15 +66,25 @@ export default function EmployeeLoginFields() {
             );
           }}
         </Form.Item>
+
+        <StatusField
+          name="isLoginActive"
+          label="Can sign in"
+          checkedLabel="Yes"
+          uncheckedLabel="No"
+          extra="Switch off to keep the record but stop the account signing in."
+        />
       </div>
 
-      <Form.Item
-        name="password"
-        label="Password"
-        extra="Leave empty to generate one. A generated password is shown once, right after the account is created."
-      >
-        <PasswordInput placeholder="Leave empty to generate" autoComplete="new-password" />
-      </Form.Item>
+      {!isEditing && (
+        <Form.Item
+          name="password"
+          label="Password"
+          extra="Leave empty to generate one. A generated password is shown once, right after the account is created."
+        >
+          <PasswordInput placeholder="Leave empty to generate" autoComplete="new-password" />
+        </Form.Item>
+      )}
     </section>
   );
 }

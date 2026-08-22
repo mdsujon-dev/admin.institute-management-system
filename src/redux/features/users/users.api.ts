@@ -3,14 +3,11 @@ import { cleanParams, listTags, unwrap, unwrapList } from "@/redux/api/helpers";
 import type { ApiResponse, ListParams, Paginated } from "@/types/api";
 import type { User, UserDetail, UserStatus } from "@/types/models";
 
-export interface CreateUserPayload {
-  email: string;
-  /** Leave empty and the API returns a one time temporary password. */
-  password?: string;
-  roleId: string;
-  status?: UserStatus;
-}
-
+/**
+ * Accounts are not created here. One comes into being by hiring an employee or
+ * admitting a student, so this slice only reads them and edits what an account
+ * is allowed to do.
+ */
 export interface UpdateUserPayload {
   roleId?: string;
   status?: UserStatus;
@@ -28,15 +25,6 @@ export const usersApi = baseApi.injectEndpoints({
       query: (id) => `/users/${id}`,
       transformResponse: unwrap<UserDetail>,
       providesTags: (_result, _error, id) => [{ type: "User", id }],
-    }),
-
-    createUser: builder.mutation<User, CreateUserPayload>({
-      query: (body) => ({ url: "/users", method: "POST", body }),
-      transformResponse: unwrap<User>,
-      invalidatesTags: [
-        { type: "User", id: "LIST" },
-        { type: "Role", id: "LIST" },
-      ],
     }),
 
     updateUser: builder.mutation<User, { id: string; body: UpdateUserPayload }>({
@@ -85,7 +73,6 @@ export const usersApi = baseApi.injectEndpoints({
 export const {
   useGetUsersQuery,
   useGetUserQuery,
-  useCreateUserMutation,
   useUpdateUserMutation,
   useSetUserPermissionsMutation,
   useDeleteUserMutation,

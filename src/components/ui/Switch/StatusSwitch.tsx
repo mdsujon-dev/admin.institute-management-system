@@ -2,9 +2,15 @@ import { Switch, Tooltip } from "antd";
 import type { ControlSize } from "@/components/ui/types";
 
 interface StatusSwitchProps {
-  /** True when the record is active. */
-  checked: boolean;
-  onChange: (checked: boolean) => void;
+  /**
+   * True when the record is active.
+   *
+   * Optional so the same component works as the child of a `Form.Item` with
+   * `valuePropName="checked"`, which supplies both of these itself -- one
+   * switch for a row in a table and for a field in a form, not two that drift.
+   */
+  checked?: boolean;
+  onChange?: (checked: boolean) => void;
   /** Spins this one switch while its own save is in flight. */
   loading?: boolean;
   disabled?: boolean;
@@ -24,7 +30,7 @@ interface StatusSwitchProps {
  * which is what stops a double click sending two opposite updates.
  */
 export default function StatusSwitch({
-  checked,
+  checked = false,
   onChange,
   loading = false,
   disabled = false,

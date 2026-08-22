@@ -43,7 +43,7 @@ export interface User {
   createdAt: string;
   updatedAt: string;
   role: RoleRef;
-  /** Only returned by `POST /users` when the password was auto-generated. */
+  /** Only returned on creation, when the password was auto-generated. */
   temporaryPassword?: string;
 }
 

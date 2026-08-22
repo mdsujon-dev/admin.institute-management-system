@@ -9,7 +9,7 @@ import type { EmployeeStatus, Gender } from "@/types/models";
 export interface EmployeeFormValues {
   email?: string;
   password?: string;
-  roleId?: string;
+  isLoginActive?: boolean;
   firstName: string;
   lastName: string;
   phone?: string;
@@ -38,9 +38,9 @@ export default function EmployeeForm({ form, onFinish, isEditing }: EmployeeForm
       layout="vertical"
       requiredMark="optional"
       onFinish={onFinish}
-      initialValues={{ status: "ACTIVE" }}
+      initialValues={{ status: "ACTIVE", isLoginActive: true }}
     >
-      {!isEditing && <EmployeeLoginFields />}
+      <EmployeeLoginFields isEditing={isEditing} />
 
       <h3 className="mb-3 text-caption font-semibold uppercase tracking-wide text-gray-500">
         Profile
@@ -104,7 +104,11 @@ export default function EmployeeForm({ form, onFinish, isEditing }: EmployeeForm
           <InputNumber className="w-full" size="large" min={0} step={500} placeholder="45000" />
         </Form.Item>
 
-        <Form.Item name="status" label="Status">
+        <Form.Item
+          name="status"
+          label="Employment status"
+          extra="Where they are in their time here. Separate from whether they can sign in."
+        >
           <Select options={EMPLOYEE_STATUS_OPTIONS} />
         </Form.Item>
       </div>

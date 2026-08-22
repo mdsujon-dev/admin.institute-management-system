@@ -17,7 +17,6 @@ const DashboardPage = lazy(() => import("@/pages/dashboard/DashboardPage"));
 const StudentsPage = lazy(() => import("@/pages/students/StudentsPage"));
 const EmployeesPage = lazy(() => import("@/pages/employees/EmployeesPage"));
 const DesignationsPage = lazy(() => import("@/pages/designations/DesignationsPage"));
-const UsersPage = lazy(() => import("@/pages/users/UsersPage"));
 const UserPermissionsPage = lazy(() => import("@/pages/users/UserPermissionsPage"));
 const RolesPage = lazy(() => import("@/pages/roles/RolesPage"));
 const RolePermissionsPage = lazy(() => import("@/pages/roles/RolePermissionsPage"));
@@ -77,7 +76,12 @@ export default function AppRoutes() {
 
         <Route element={<ProtectedRoute permission="user.read" />}>
           <Route element={<AppLayout />}>
-            <Route path="/users" element={<UsersPage />} />
+            {/*
+              There is no users screen any more: an account belongs to an
+              employee or a student and is managed from their row. The old path
+              still resolves so a bookmark lands somewhere useful.
+            */}
+            <Route path="/users" element={<Navigate to="/employees" replace />} />
             <Route
               path="/users/:userId/permissions"
               element={<UserPermissionsPage />}

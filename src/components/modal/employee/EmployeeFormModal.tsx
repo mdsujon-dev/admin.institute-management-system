@@ -55,6 +55,7 @@ export default function EmployeeFormModal({
       designationId: employee.designationId ?? undefined,
       address: employee.address ?? "",
       status: employee.status,
+      isLoginActive: employee.user?.status === "ACTIVE",
     });
   }, [open, employee, form]);
 
@@ -77,6 +78,7 @@ export default function EmployeeFormModal({
       salary: values.salary ?? undefined,
       designationId: values.designationId,
       status: values.status,
+      isLoginActive: values.isLoginActive,
     };
 
     try {
