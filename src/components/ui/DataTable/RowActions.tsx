@@ -1,4 +1,4 @@
-import { Eye, Pencil, Trash2 } from "lucide-react";
+import { Eye, SquarePen, Trash2 } from "lucide-react";
 import { Tooltip } from "antd";
 import Button from "@/components/ui/Button/Button";
 import Can from "@/components/rbac/Can";
@@ -59,7 +59,7 @@ export default function RowActions({
               size="sm"
               aria-label="Edit"
               className={ICON_BUTTON}
-              icon={<Pencil />}
+              icon={<SquarePen />}
               disabled={locked}
               onClick={onEdit}
             />

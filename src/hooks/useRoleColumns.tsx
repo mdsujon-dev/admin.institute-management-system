@@ -1,6 +1,6 @@
 import type { ColumnsType } from "antd/es/table";
 import { Tag, Tooltip } from "antd";
-import { KeyRound } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import { Link } from "react-router";
 import RowActions from "@/components/ui/DataTable/RowActions";
 import Can from "@/components/rbac/Can";
@@ -83,7 +83,7 @@ export function useRoleColumns({ onEdit, onDelete }: Options): ColumnsType<Role>
                   size="sm"
                   aria-label="Permissions"
                   className="rounded-[7px]"
-                  icon={<KeyRound />}
+                  icon={<ShieldCheck />}
                 />
               </Link>
             </Tooltip>

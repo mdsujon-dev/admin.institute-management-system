@@ -7,15 +7,16 @@ import { cn } from "@/utils/cn";
 export type StatTone = "brand" | "info" | "success" | "warning" | "danger";
 
 /**
- * Each fill is dark enough to carry white text at 4.5:1 or better, which is why
- * these are the deep steps of the palette rather than the bright ones.
+ * Each fill is picked to stay at 4.5:1 or better against white text -- light
+ * enough to read as colour rather than as ink, dark enough that the number on
+ * top of it is never the thing straining to be seen.
  */
 const TONE: Record<StatTone, string> = {
-  brand: "bg-brand-500",
-  info: "bg-info-700",
-  success: "bg-success-700",
-  warning: "bg-warning-700",
-  danger: "bg-error-700",
+  brand: "bg-[#0f7f9c]",
+  info: "bg-[#1a63d8]",
+  success: "bg-[#05834e]",
+  warning: "bg-[#c04f09]",
+  danger: "bg-[#c22a1d]",
 };
 
 export interface StatCardProps {
@@ -69,7 +70,7 @@ export default function StatCard({
           )}
 
           {caption && (
-            <Text size="body-sm" className="mt-0.5 text-white/70">
+            <Text size="body-sm" className="mt-0.5 text-white/85">
               {caption}
             </Text>
           )}
@@ -79,11 +80,11 @@ export default function StatCard({
           className={cn(
             "flex size-10 shrink-0 items-center justify-center rounded-lg bg-white text-h4",
             {
-              brand: "text-brand-500",
-              info: "text-info-700",
-              success: "text-success-700",
-              warning: "text-warning-700",
-              danger: "text-error-700",
+              brand: "text-[#0f7f9c]",
+              info: "text-[#1a63d8]",
+              success: "text-[#05834e]",
+              warning: "text-[#c04f09]",
+              danger: "text-[#c22a1d]",
             }[tone],
           )}
         >

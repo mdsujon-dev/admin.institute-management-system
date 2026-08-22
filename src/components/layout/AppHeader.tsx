@@ -10,9 +10,13 @@ export default function AppHeader() {
   const dispatch = useAppDispatch();
   const isCollapsed = useAppSelector((state) => state.ui.isSidebarCollapsed);
 
+  // The height sits on the same box as the border, so the divider under the
+  // header lands on exactly the same line as the one under the sidebar's brand
+  // block -- with the border outside the measured box they were 1px apart,
+  // which is enough to see.
   return (
-    <header className="sticky top-0 z-30 border-b border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
-      <div className="flex h-[var(--layout-header-height)] items-center justify-between gap-3 px-4 sm:px-6">
+    <header className="sticky top-0 z-30 h-[var(--layout-header-height)] border-b border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
+      <div className="flex h-full items-center justify-between gap-3 px-4 sm:px-6">
         <div className="flex items-center gap-2">
           {/* One button per breakpoint: the drawer on mobile, the rail on desktop. */}
           <Button

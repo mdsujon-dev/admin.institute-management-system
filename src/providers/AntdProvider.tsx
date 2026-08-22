@@ -96,8 +96,16 @@ export default function AntdProvider({ children }: { children: ReactNode }) {
             itemHeight: 38,
             itemPaddingInline: 12,
             iconMarginInlineEnd: 10,
-            fontSize: 15,
+            fontSize: 14,
             subMenuItemBg: "transparent",
+            // The active row is a pale wash of the brand with the brand's own
+            // text on it -- enough to find at a glance, quiet enough to sit
+            // next to eight others.
+            itemSelectedBg: isDark ? "rgba(14, 116, 144, 0.22)" : "#e6f5f9",
+            itemSelectedColor: isDark ? "#63bed2" : "#0b6379",
+            itemActiveBg: isDark ? "rgba(255, 255, 255, 0.04)" : "#f2fbfc",
+            itemHoverBg: isDark ? "rgba(255, 255, 255, 0.04)" : "#f2fbfc",
+            subMenuItemSelectedColor: isDark ? "#63bed2" : "#0b6379",
           },
             Card: { paddingLG: 20 },
           },

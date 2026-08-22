@@ -15,7 +15,17 @@ interface PermissionMatrixProps {
   disabled?: boolean;
 }
 
-const ACTION_ORDER: PermissionAction[] = ["read", "create", "update", "delete"];
+/**
+ * Reads first, because everything else implies one. `readAll` is last and only
+ * applies to the audit trail, where it turns "my own entries" into "everyone's".
+ */
+const ACTION_ORDER: PermissionAction[] = [
+  "read",
+  "create",
+  "update",
+  "delete",
+  "readAll",
+];
 const ALL_CODES = ALL_PERMISSIONS.map((permission) => permission.code);
 
 /**

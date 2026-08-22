@@ -19,8 +19,17 @@ export const PERMISSION_SUBJECTS = [
 
 export const PERMISSION_ACTIONS = ["create", "read", "update", "delete"] as const;
 
+/**
+ * Actions that only make sense for one subject, so they are listed rather than
+ * generated. `log.readAll` widens `log.read` from "your own trail" to
+ * "everybody's" -- without it, an operator sees only what they did themselves.
+ */
+export const EXTRA_PERMISSION_ACTIONS = ["readAll"] as const;
+
 export type PermissionSubject = (typeof PERMISSION_SUBJECTS)[number];
-export type PermissionAction = (typeof PERMISSION_ACTIONS)[number];
+export type PermissionAction =
+  | (typeof PERMISSION_ACTIONS)[number]
+  | (typeof EXTRA_PERMISSION_ACTIONS)[number];
 export type PermissionCode = `${PermissionSubject}.${PermissionAction}`;
 
 /** Audit trails are written by the system and only ever read. */
@@ -32,16 +41,21 @@ export interface PermissionDefinition {
   action: PermissionAction;
 }
 
-export const ALL_PERMISSIONS: PermissionDefinition[] = PERMISSION_SUBJECTS.flatMap(
-  (subject) =>
+export const ALL_PERMISSIONS: PermissionDefinition[] = [
+  ...PERMISSION_SUBJECTS.flatMap((subject) =>
     PERMISSION_ACTIONS.filter(
       (action) => action === "read" || !READ_ONLY_SUBJECTS.includes(subject),
     ).map((action) => ({
       code: `${subject}.${action}` as PermissionCode,
       subject,
-      action,
+      action: action as PermissionAction,
     })),
-);
+  ),
+  { code: "log.readAll", subject: "log", action: "readAll" },
+];
+
+/** Holding this widens every log screen from "mine" to "everybody's". */
+export const READ_ALL_LOGS = "log.readAll";
 
 /** `{ user: [...], role: [...] }` — the shape the role editor renders. */
 export const PERMISSIONS_BY_SUBJECT = PERMISSION_SUBJECTS.map((subject) => ({
@@ -65,6 +79,7 @@ export const ACTION_LABELS: Record<PermissionAction, string> = {
   read: "View",
   update: "Edit",
   delete: "Delete",
+  readAll: "View all",
 };
 
 /**
