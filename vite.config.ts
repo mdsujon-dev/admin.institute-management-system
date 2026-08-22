@@ -24,6 +24,7 @@ export default defineConfig({
         manualChunks: {
           react: ["react", "react-dom", "react-router"],
           antd: ["antd", "@ant-design/icons"],
+          charts: ["apexcharts", "react-apexcharts"],
           redux: ["@reduxjs/toolkit", "react-redux"],
         },
       },

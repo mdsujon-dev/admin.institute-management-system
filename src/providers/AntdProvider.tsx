@@ -81,13 +81,14 @@ export default function AntdProvider({ children }: { children: ReactNode }) {
             Modal: { titleFontSize: 18 },
             // A menu row is 38px: two pixels tighter than the default control
           // height, which fits one more item on a short laptop screen. The
-          // label sits 13px from its icon, which is what stops the row reading
-          // as one blob at a glance.
+          // label sits 15px from its icon and one step above body size, which
+          // is what stops the row reading as one blob at a glance.
           Menu: {
             itemBorderRadius: 8,
             itemMarginInline: 0,
             itemHeight: 38,
-            iconMarginInlineEnd: 13,
+            iconMarginInlineEnd: 15,
+            fontSize: 15,
           },
             Card: { paddingLG: 20 },
           },

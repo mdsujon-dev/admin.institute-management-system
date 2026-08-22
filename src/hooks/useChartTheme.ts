@@ -52,6 +52,9 @@ export function useChartTheme(): { baseOptions: ApexOptions; isDark: boolean } {
         axisBorder: { show: false },
         axisTicks: { show: false },
         labels: { style: { fontSize: "12px" } },
+        // ApexCharts paints its hover guide with a gradient by default, which is
+        // the one thing that would sneak a gradient into a gradient-free app.
+        crosshairs: { fill: { type: "solid", color: isDark ? "#1d2939" : "#f2f4f7" } },
       },
       yaxis: { labels: { style: { fontSize: "12px" } } },
       legend: {

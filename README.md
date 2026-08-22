@@ -45,6 +45,7 @@ src/
     form/<domain>/     the fields of one form, no dialog around them
     modal/<domain>/    the dialog + its mutation, wrapping a form
     card/              cards used by more than one screen (StatCard, ...)
+    chart/             Chart (ApexCharts + the app theme) and ChartCard
     layout/            sidebar, header, profile menu, theme toggle, AuthShell
     rbac/              <Can>
     common/            PageMeta, ScrollToTop, MessagePage
@@ -77,6 +78,11 @@ a control a one file change.
   a different token and stay, because they are how a keyboard user navigates.
 - **Colour** — `--color-brand-*`. Change `brand-500` and both Tailwind and antd
   follow, because `AntdProvider` is handed the same value.
+- **Charts** — ApexCharts, wrapped in `components/chart/Chart.tsx`. A screen
+  passes a type and a series; the font, the brand ramp, the flat fills and the
+  grid come from `hooks/useChartTheme.ts`, so restyling every chart is one edit.
+  Each dashboard chart is built from data the API already returns — there is no
+  reporting endpoint, and nothing on a chart is estimated.
 
 Ant Design's styles are wrapped in a CSS layer (`<StyleProvider layer>` plus the
 `@layer` order in `index.css`), so a Tailwind utility on an antd component
