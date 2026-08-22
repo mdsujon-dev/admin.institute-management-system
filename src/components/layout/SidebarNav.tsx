@@ -102,6 +102,8 @@ export default function SidebarNav({ collapsed, onNavigate }: SidebarNavProps) {
     <Menu
       mode="inline"
       items={items}
+      // The left gutter of a row, and the step each child is indented by.
+      inlineIndent={16}
       selectedKeys={[selectedKey]}
       openKeys={collapsed ? undefined : openKeys}
       onOpenChange={(keys) => setOpenKeys(keys as string[])}

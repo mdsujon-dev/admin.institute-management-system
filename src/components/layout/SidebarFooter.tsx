@@ -26,8 +26,7 @@ export default function SidebarFooter({ collapsed, onDone }: SidebarFooterProps)
       <Tooltip title={collapsed ? "Sign out" : undefined} placement="right">
         <Button
           block
-          danger
-          variant="ghost"
+          variant="danger-outline"
           loading={isLoggingOut}
           icon={<LogoutOutlined />}
           onClick={handleClick}

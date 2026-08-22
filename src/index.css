@@ -98,6 +98,12 @@
     @apply font-medium;
   }
 
+  /* A long label is cut with an ellipsis rather than sliding under the submenu
+     arrow -- the arrow is how you know the row expands. */
+  .ant-menu-title-content {
+    @apply block truncate;
+  }
+
   /* Elevation is switched off through antd's own tokens, so the only
      box-shadows left in the app are focus rings -- which must stay, because
      they are how a keyboard user sees where they are. */

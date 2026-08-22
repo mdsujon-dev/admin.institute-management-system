@@ -87,6 +87,7 @@ export default function AntdProvider({ children }: { children: ReactNode }) {
             itemBorderRadius: 8,
             itemMarginInline: 0,
             itemHeight: 38,
+            itemPaddingInline: 12,
             iconMarginInlineEnd: 15,
             fontSize: 15,
           },

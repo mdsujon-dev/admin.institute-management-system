@@ -3,9 +3,12 @@ import {
   ContactsOutlined,
   DashboardOutlined,
   IdcardOutlined,
+  KeyOutlined,
   SafetyCertificateOutlined,
+  SettingOutlined,
   SolutionOutlined,
   TeamOutlined,
+  ToolOutlined,
   UserOutlined,
   UsergroupAddOutlined,
 } from "@ant-design/icons";
@@ -38,12 +41,7 @@ export const NAV_SECTIONS: NavSection[] = [
   {
     key: "overview",
     items: [
-      {
-        key: "dashboard",
-        label: "Dashboard",
-        path: "/",
-        icon: <DashboardOutlined />,
-      },
+      { key: "dashboard", label: "Dashboard", path: "/", icon: <DashboardOutlined /> },
       {
         key: "students",
         label: "Students",
@@ -76,6 +74,19 @@ export const NAV_SECTIONS: NavSection[] = [
             permission: "designation.read",
             icon: <ContactsOutlined />,
           },
+        ],
+      },
+    ],
+  },
+  {
+    key: "administration",
+    title: "Administration",
+    items: [
+      {
+        key: "master-setup",
+        label: "Master setup",
+        icon: <ToolOutlined />,
+        children: [
           {
             key: "roles",
             label: "Roles",
@@ -83,24 +94,18 @@ export const NAV_SECTIONS: NavSection[] = [
             permission: "role.read",
             icon: <SafetyCertificateOutlined />,
           },
+          {
+            key: "users",
+            label: "Users",
+            path: "/users",
+            permission: "user.read",
+            icon: <IdcardOutlined />,
+          },
         ],
-      },
-    ],
-  },
-  {
-    key: "access",
-    title: "Access control",
-    items: [
-      {
-        key: "users",
-        label: "Users",
-        path: "/users",
-        permission: "user.read",
-        icon: <IdcardOutlined />,
       },
       {
         key: "logs",
-        label: "Audit logs",
+        label: "Logs",
         path: "/logs",
         permission: "log.read",
         icon: <AuditOutlined />,
@@ -112,10 +117,23 @@ export const NAV_SECTIONS: NavSection[] = [
     title: "Account",
     items: [
       {
-        key: "profile",
-        label: "My profile",
-        path: "/profile",
-        icon: <UserOutlined />,
+        key: "settings",
+        label: "Settings",
+        icon: <SettingOutlined />,
+        children: [
+          {
+            key: "profile",
+            label: "My profile",
+            path: "/profile",
+            icon: <UserOutlined />,
+          },
+          {
+            key: "change-password",
+            label: "Change password",
+            path: "/change-password",
+            icon: <KeyOutlined />,
+          },
+        ],
       },
     ],
   },

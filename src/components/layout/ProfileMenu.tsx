@@ -4,7 +4,6 @@ import { useNavigate } from "react-router";
 import { InitialsAvatar, Text } from "@/components/ui";
 import { useLogout } from "@/hooks/useLogout";
 import { usePermissions } from "@/hooks/usePermissions";
-import { humanise } from "@/utils/format";
 
 /** Who is signed in, and the three things you can do about it. */
 export default function ProfileMenu() {
@@ -33,12 +32,12 @@ export default function ProfileMenu() {
     >
       <button type="button" className="flex items-center gap-2 rounded-lg px-1 py-1">
         <InitialsAvatar name={user.email} size="sm" />
-        <span className="hidden min-w-0 text-left sm:block">
+        <span className="hidden min-w-0 max-w-44 text-left sm:block">
           <Text size="body-sm" weight="medium" truncate>
             {user.email.split("@")[0]}
           </Text>
-          <Text size="caption" tone="subtle">
-            {humanise(user.role.name)}
+          <Text size="caption" tone="subtle" truncate>
+            {user.email}
           </Text>
         </span>
         <DownOutlined className="text-caption text-gray-400" />

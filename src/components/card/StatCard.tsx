@@ -46,7 +46,7 @@ export default function StatCard({
     <Card
       padded={false}
       className={cn("relative overflow-hidden border-0", TONE[tone])}
-      bodyClassName="relative p-4 sm:p-5"
+      bodyClassName="relative p-4 sm:px-5"
     >
       {/* Flat white at a low opacity -- depth without a gradient. */}
       <span
