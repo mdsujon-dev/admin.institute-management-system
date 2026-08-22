@@ -1,5 +1,5 @@
-import { App } from "antd";
 import { useMemo } from "react";
+import { toast as sonner } from "sonner";
 
 type Notify = (title: string, description?: string) => void;
 
@@ -11,23 +11,22 @@ export interface Toast {
 }
 
 /**
- * `const toast = useToast(); toast.success("Saved")`.
+ * `const toast = useToast(); toast.success("Saved", "3 rows updated")`.
  *
- * Goes through antd's `App` context rather than the static `message.*` calls,
- * which is the only way a toast picks up the theme configured in
- * `providers/AntdProvider.tsx`.
+ * The title is what happened and the description is the detail, kept as two
+ * arguments so every toast in the app reads the same way round.
+ *
+ * An error stays up longer than the rest: the others confirm something the
+ * person just did, while an error is the only one they have to read.
  */
 export function useToast(): Toast {
-  const { message } = App.useApp();
-
   return useMemo(() => {
     const notify =
       (type: "success" | "error" | "warning" | "info"): Notify =>
       (title, description) => {
-        void message.open({
-          type,
-          content: description ? `${title} - ${description}` : title,
-          duration: type === "error" ? 5 : 3,
+        sonner[type](title, {
+          description,
+          duration: type === "error" ? 6000 : 4000,
         });
       };
 
@@ -37,5 +36,5 @@ export function useToast(): Toast {
       warning: notify("warning"),
       info: notify("info"),
     };
-  }, [message]);
+  }, []);
 }

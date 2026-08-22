@@ -90,7 +90,6 @@ export interface RoleDetail extends Omit<Role, "permissions"> {
 export interface Designation {
   id: string;
   title: string;
-  department: string | null;
   description: string | null;
   /** A switched off designation is no longer offered when adding staff. */
   isActive: boolean;
@@ -121,7 +120,7 @@ export interface Employee {
   updatedAt: string;
   userId: string;
   designationId: string | null;
-  designation?: Pick<Designation, "id" | "title" | "department"> | null;
+  designation?: Pick<Designation, "id" | "title"> | null;
   user?: Pick<User, "id" | "email" | "status"> & { role?: RoleRef };
   temporaryPassword?: string;
 }

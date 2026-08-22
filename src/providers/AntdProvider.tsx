@@ -112,7 +112,8 @@ export default function AntdProvider({ children }: { children: ReactNode }) {
         }}
       >
           {/* Gives every component access to message/modal/notification through
-              `App.useApp()`, instead of the static calls that miss the theme. */}
+              `App.useApp()` -- Modal.confirm and friends. Toasts do not come
+              from here: they are sonner, mounted in `ToastProvider`. */}
           <AntApp>{children}</AntApp>
       </ConfigProvider>
     </StyleProvider>

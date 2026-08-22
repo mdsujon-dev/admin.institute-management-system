@@ -5,7 +5,6 @@ import Can from "@/components/rbac/Can";
 import { humanise } from "@/utils/format";
 import RowActions from "@/components/ui/DataTable/RowActions";
 import type { Designation } from "@/types/models";
-import { formatDate } from "@/utils/format";
 
 interface Options {
   onEdit: (designation: Designation) => void;
@@ -16,6 +15,11 @@ interface Options {
   togglingId?: string | null;
 }
 
+/**
+ * A designation is a title, the role it carries, and whether it is still on
+ * offer. When it was created is not part of that, so the table does not carry
+ * a column for it -- the row is the job, not its paperwork.
+ */
 export function useDesignationColumns({
   onEdit,
   onDelete,
@@ -44,17 +48,6 @@ export function useDesignationColumns({
           )}
         </div>
       ),
-    },
-    {
-      title: "Department",
-      key: "department",
-      sorter: true,
-      render: (_, designation) =>
-        designation.department ? (
-          <Text size="body-sm">{designation.department}</Text>
-        ) : (
-          <span className="text-gray-400">&mdash;</span>
-        ),
     },
     {
       title: "Role",
@@ -99,17 +92,6 @@ export function useDesignationColumns({
       responsive: ["sm"],
       render: (_, designation) => (
         <Text size="body-sm">{designation.employeeCount ?? 0}</Text>
-      ),
-    },
-    {
-      title: "Created",
-      key: "createdAt",
-      sorter: true,
-      responsive: ["lg"],
-      render: (_, designation) => (
-        <Text size="body-sm" tone="muted">
-          {formatDate(designation.createdAt)}
-        </Text>
       ),
     },
     {

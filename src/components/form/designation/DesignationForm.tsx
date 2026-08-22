@@ -1,12 +1,10 @@
 import { Form, type FormInstance } from "antd";
+import StatusField from "@/components/form/shared/StatusField";
 import { Input, Select, TextArea } from "@/components/ui";
 import { useRoleOptions } from "@/hooks/useRoleOptions";
 
-import StatusField from "@/components/form/shared/StatusField";
-
 export interface DesignationFormValues {
   title: string;
-  department?: string;
   description?: string;
   roleId?: string;
   isActive: boolean;
@@ -18,10 +16,13 @@ interface DesignationFormProps {
 }
 
 /**
- * What a staff member does, which department they do it in, and -- the part
- * that matters most -- the role anyone given this designation signs in with.
- * Keeping the role here is what makes "designation decides access" true rather
- * than something an operator has to remember to set twice.
+ * What a staff member does and -- the part that matters most -- the role anyone
+ * given this designation signs in with. Keeping the role here is what makes
+ * "designation decides access" true, rather than something an operator has to
+ * remember to set twice.
+ *
+ * One field per row: the dialog is short, and reading it straight down beats a
+ * grid that makes the eye zig-zag.
  */
 export default function DesignationForm({ form, onFinish }: DesignationFormProps) {
   const { options: roleOptions, isLoading: isLoadingRoles } = useRoleOptions();
@@ -34,43 +35,38 @@ export default function DesignationForm({ form, onFinish }: DesignationFormProps
       onFinish={onFinish}
       initialValues={{ isActive: true }}
     >
-      <div className="grid grid-cols-1 gap-x-4 sm:grid-cols-2">
-        <Form.Item
-          name="title"
-          label="Title"
-          rules={[
-            { required: true, message: "A designation needs a title." },
-            { min: 2, message: "Use at least two characters." },
-          ]}
-        >
-          <Input placeholder="Senior Lecturer" maxLength={100} />
-        </Form.Item>
-
-        <Form.Item name="department" label="Department">
-          <Input placeholder="Computer Science" maxLength={100} />
-        </Form.Item>
-      </div>
-
-      <div className="grid grid-cols-1 gap-x-4 sm:grid-cols-2">
-        <Form.Item
-          name="roleId"
-          label="Role"
-          extra="Anyone given this designation signs in with this role."
-        >
-          <Select
-            allowClear
-            options={roleOptions}
-            loading={isLoadingRoles}
-            placeholder="No role yet"
-          />
-        </Form.Item>
-
-        <StatusField extra="A switched off designation is kept for current staff, but is not offered to new ones." />
-      </div>
-
-      <Form.Item name="description" label="Description" className="mb-0">
-        <TextArea maxLength={255} placeholder="What this role is responsible for" />
+      <Form.Item
+        name="title"
+        label="Title"
+        rules={[
+          { required: true, message: "A designation needs a title." },
+          { min: 2, message: "Use at least two characters." },
+        ]}
+      >
+        <Input placeholder="Senior Lecturer" maxLength={100} />
       </Form.Item>
+
+      <Form.Item name="description" label="Description">
+        <TextArea rows={2} maxLength={255} placeholder="What this job is responsible for" />
+      </Form.Item>
+
+      <Form.Item
+        name="roleId"
+        label="Role"
+        extra="Anyone given this designation signs in with this role."
+      >
+        <Select
+          allowClear
+          options={roleOptions}
+          loading={isLoadingRoles}
+          placeholder="No role yet"
+        />
+      </Form.Item>
+
+      <StatusField
+        className="mb-0"
+        extra="A switched off designation is kept for current staff, but is not offered to new ones."
+      />
     </Form>
   );
 }

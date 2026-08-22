@@ -85,7 +85,7 @@ export default function DesignationList({
           <FilterBar
             search={list.search}
             onSearchChange={list.setSearch}
-            searchPlaceholder="Search title, department or description"
+            searchPlaceholder="Search title or description"
             isFiltered={list.isFiltered}
             onReset={list.resetFilters}
           >

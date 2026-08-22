@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import AntdProvider from "./AntdProvider";
 import StoreProvider from "./StoreProvider";
+import ToastProvider from "./ToastProvider";
 import { ThemeProvider } from "./ThemeProvider";
 
 /**
@@ -15,6 +16,7 @@ export default function AppProviders({ children }: { children: ReactNode }) {
       <ThemeProvider>
         <AntdProvider>
           <HelmetProvider>{children}</HelmetProvider>
+          <ToastProvider />
         </AntdProvider>
       </ThemeProvider>
     </StoreProvider>

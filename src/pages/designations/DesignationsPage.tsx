@@ -5,10 +5,10 @@ import DesignationList from "@/pages/designations/DesignationList";
 export default function DesignationsPage() {
   return (
     <>
-      <PageMeta title="Designations" description="Staff designations and departments" />
+      <PageMeta title="Designations" description="Job titles and the access each one carries" />
       <PageHeader
         title="Designations"
-        description="Job titles staff can be assigned to, grouped by department."
+        description="Job titles staff can be assigned to. Each one decides the role its holders sign in with."
       />
       <DesignationList />
     </>

@@ -50,14 +50,7 @@ export function useEmployeeColumns({
       responsive: ["md"],
       render: (_, employee) =>
         employee.designation ? (
-          <div className="min-w-0">
-            <Text size="body-sm">{employee.designation.title}</Text>
-            {employee.designation.department && (
-              <Text size="caption" tone="subtle">
-                {employee.designation.department}
-              </Text>
-            )}
-          </div>
+          <Text size="body-sm">{employee.designation.title}</Text>
         ) : (
           <span className="text-gray-400">&mdash;</span>
         ),

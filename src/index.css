@@ -230,3 +230,85 @@
     @apply bg-white dark:bg-gray-900;
   }
 }
+
+/* -----------------------------------------------------------------------------
+   Toasts (sonner)
+   -----------------------------------------------------------------------------
+   Deliberately outside every @layer. Sonner injects its stylesheet unlayered,
+   and unlayered CSS beats layered CSS whatever the specificity -- so these rules
+   have to sit unlayered too, and match the shape of the selectors they override.
+   The app has no shadows, so a border does the separating instead. */
+[data-sonner-toaster] {
+  --width: 380px;
+  font-family: var(--font-sans);
+}
+
+[data-sonner-toaster][data-sonner-theme="light"] {
+  --normal-bg: #ffffff;
+  --normal-border: var(--color-gray-200);
+  --normal-text: var(--color-gray-900);
+}
+
+[data-sonner-toaster][data-sonner-theme="dark"] {
+  --normal-bg: var(--color-gray-900);
+  --normal-border: var(--color-gray-800);
+  --normal-text: #ffffff;
+}
+
+/* Sonner's own rule is `[data-sonner-toast]`, the same specificity as a single
+   class, and it is injected after this stylesheet -- so source order would hand
+   it the win. The extra ancestor is what settles it. */
+[data-sonner-toaster] .ims-toast {
+  @apply gap-3 p-4;
+  border-radius: var(--radius-lg);
+  box-shadow: none;
+}
+
+.ims-toast .ims-toast-title {
+  @apply text-body-sm font-medium;
+}
+
+.ims-toast .ims-toast-description {
+  @apply text-caption;
+  color: var(--color-gray-500);
+}
+
+[data-sonner-toaster][data-sonner-theme="dark"] .ims-toast .ims-toast-description {
+  color: var(--color-gray-400);
+}
+
+/* Sonner absolutely positions the close button so it straddles the top left
+   corner, half off the card. It belongs with the text instead, so it is put
+   back in flow. Sonner's own rule is `[data-sonner-toast][data-styled] [...]`,
+   so these have to out-specify three compound selectors, not two. */
+[data-sonner-toaster] .ims-toast[data-styled] .ims-toast-close {
+  @apply self-start rounded-md p-0;
+  position: static;
+  /* Sonner renders the close button first in the DOM, before the icon. Ordering
+     it last is what puts it where a close button is looked for. */
+  order: 9;
+  margin-inline-start: auto;
+  transform: none;
+  border: 0;
+  background: transparent;
+  color: var(--color-gray-400);
+  transition: color 150ms;
+}
+
+[data-sonner-toaster] .ims-toast[data-styled]:hover .ims-toast-close:hover {
+  background: transparent;
+  border-color: transparent;
+  color: var(--color-gray-700);
+}
+
+[data-sonner-toaster][data-sonner-theme="dark"] .ims-toast[data-styled]:hover .ims-toast-close:hover {
+  color: var(--color-gray-200);
+}
+
+.ims-toast [data-icon] {
+  @apply mt-0.5 shrink-0;
+}
+
+.ims-toast [data-content] {
+  @apply flex min-w-0 flex-col gap-0.5;
+}

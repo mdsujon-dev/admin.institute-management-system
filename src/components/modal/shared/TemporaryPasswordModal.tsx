@@ -1,6 +1,7 @@
-import { App, Tooltip } from "antd";
+import { Tooltip } from "antd";
 import { Copy } from "lucide-react";
 import { Button, Modal, Text } from "@/components/ui";
+import { useToast } from "@/hooks/useToast";
 
 interface TemporaryPasswordModalProps {
   open: boolean;
@@ -22,14 +23,14 @@ export default function TemporaryPasswordModal({
   email,
   password,
 }: TemporaryPasswordModalProps) {
-  const { message } = App.useApp();
+  const toast = useToast();
 
   const copy = async (value: string, label: string) => {
     try {
       await navigator.clipboard.writeText(value);
-      message.success(`${label} copied`);
+      toast.success(`${label} copied`);
     } catch {
-      message.error("Could not copy. Please select the text and copy it manually.");
+      toast.error("Could not copy", "Please select the text and copy it manually.");
     }
   };
 

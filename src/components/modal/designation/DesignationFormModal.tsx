@@ -36,7 +36,6 @@ export default function DesignationFormModal({
     setErrorMessage(null);
     form.setFieldsValue({
       title: designation?.title ?? "",
-      department: designation?.department ?? "",
       description: designation?.description ?? "",
       roleId: designation?.roleId ?? undefined,
       isActive: designation?.isActive ?? true,
@@ -48,7 +47,6 @@ export default function DesignationFormModal({
 
     const body = {
       title: values.title.trim(),
-      department: values.department?.trim() || undefined,
       description: values.description?.trim() || undefined,
       roleId: values.roleId || undefined,
       isActive: values.isActive,

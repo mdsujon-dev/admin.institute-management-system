@@ -23,9 +23,7 @@ export function useDesignationOptions() {
     () =>
       (data?.items ?? []).map((designation) => ({
         value: designation.id,
-        label: designation.department
-          ? `${designation.title} (${designation.department})`
-          : designation.title,
+        label: designation.title,
       })),
     [data],
   );
