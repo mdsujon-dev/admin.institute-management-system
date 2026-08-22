@@ -86,6 +86,13 @@ export default function AntdProvider({ children }: { children: ReactNode }) {
               borderColor: isDark ? "#1d2939" : "#e4e7ec",
             },
             Modal: { titleFontSize: 18 },
+            // 24px between fields is spacing for a page, not for a dialog: it
+            // is what pushes a short form past the fold and puts a scrollbar on
+            // something that would otherwise fit. 16 reads as one group.
+            Form: {
+              itemMarginBottom: 16,
+              verticalLabelPadding: "0 0 6px",
+            },
             // A menu row is 38px: two pixels tighter than the default control
           // height, which fits one more item on a short laptop screen. The
           // label sits 15px from its icon and one step above body size, which

@@ -1,8 +1,7 @@
 import { Form } from "antd";
 import StatusField from "@/components/form/shared/StatusField";
-import { Input, PasswordInput, Text } from "@/components/ui";
-import { useDesignationOptions } from "@/hooks/useDesignationOptions";
-import { humanise } from "@/utils/format";
+import { Input, PasswordInput, Select } from "@/components/ui";
+import { useRoleOptions } from "@/hooks/useRoleOptions";
 
 interface EmployeeLoginFieldsProps {
   /** On edit the email and password are gone, but the rest still applies. */
@@ -13,16 +12,16 @@ interface EmployeeLoginFieldsProps {
  * The login half of a staff member.
  *
  * There is no separate users screen to go to: an employee *is* an account, so
- * whether they can sign in and which role they sign in with is decided here,
- * next to everything else about them.
+ * the role they sign in with and whether they can sign in at all are decided
+ * here, next to everything else about them.
  *
- * The role is shown but not chosen -- the designation carries it, so the two
- * can never be set to disagree. The email and password only appear while
- * creating, because changing either has consequences (old sessions stop
- * working) that a profile form should not hide inside a save.
+ * The role is asked for rather than derived from the designation -- two people
+ * can share a job title and still need different access. The email and password
+ * only appear while creating, because changing either has consequences (old
+ * sessions stop working) that a profile form should not hide inside a save.
  */
 export default function EmployeeLoginFields({ isEditing }: EmployeeLoginFieldsProps) {
-  const { designations } = useDesignationOptions();
+  const { options: roleOptions, isLoading: isLoadingRoles } = useRoleOptions();
 
   return (
     <section className="mb-2">
@@ -45,42 +44,25 @@ export default function EmployeeLoginFields({ isEditing }: EmployeeLoginFieldsPr
         )}
 
         <Form.Item
-          noStyle
-          shouldUpdate={(prev, next) => prev.designationId !== next.designationId}
+          name="roleId"
+          label="Role"
+          rules={[{ required: true, message: "Pick the role this account signs in with." }]}
         >
-          {({ getFieldValue }) => {
-            const designation = designations.find(
-              (entry) => entry.id === getFieldValue("designationId"),
-            );
-
-            return (
-              <Form.Item label="Role" extra="Comes from the designation below.">
-                <div className="flex h-10 items-center rounded-[9px] border border-gray-200 bg-gray-50 px-3 dark:border-gray-800 dark:bg-gray-950">
-                  <Text size="body-sm" tone={designation?.role ? "default" : "subtle"}>
-                    {designation?.role
-                      ? humanise(designation.role.name)
-                      : "Pick a designation to set the role"}
-                  </Text>
-                </div>
-              </Form.Item>
-            );
-          }}
+          <Select
+            options={roleOptions}
+            loading={isLoadingRoles}
+            placeholder="Select a role"
+          />
         </Form.Item>
 
-        <StatusField
-          name="isLoginActive"
-          label="Can sign in"
-          checkedLabel="Yes"
-          uncheckedLabel="No"
-          extra="Switch off to keep the record but stop the account signing in."
-        />
+        <StatusField name="isLoginActive" label="Can sign in" checkedLabel="Yes" uncheckedLabel="No" />
       </div>
 
       {!isEditing && (
         <Form.Item
           name="password"
           label="Password"
-          extra="Leave empty to generate one. A generated password is shown once, right after the account is created."
+          extra="Leave empty to generate one. A generated password is shown once."
         >
           <PasswordInput placeholder="Leave empty to generate" autoComplete="new-password" />
         </Form.Item>

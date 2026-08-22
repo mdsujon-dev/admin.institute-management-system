@@ -7,8 +7,8 @@ import type { Employee, EmployeeStatus, Gender } from "@/types/models";
 export interface CreateEmployeePayload {
   email: string;
   password?: string;
-  /** Optional: the designation already carries the role its holders get. */
-  roleId?: string;
+  /** The role the new account signs in with. */
+  roleId: string;
   firstName: string;
   lastName: string;
   phone?: string;
@@ -25,11 +25,11 @@ export interface CreateEmployeePayload {
 
 /**
  * Everything except the email and the password, which change through flows of
- * their own. Moving somebody to another designation moves their role with it,
- * so that is handled by the API rather than sent from here.
+ * their own. The role is editable here: it belongs to the account, and a
+ * promotion should be one save rather than a trip through a second screen.
  */
 export type UpdateEmployeePayload = Partial<
-  Omit<CreateEmployeePayload, "email" | "password" | "roleId">
+  Omit<CreateEmployeePayload, "email" | "password">
 >;
 
 export const employeesApi = baseApi.injectEndpoints({

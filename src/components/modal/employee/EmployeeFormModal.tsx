@@ -55,6 +55,7 @@ export default function EmployeeFormModal({
       designationId: employee.designationId ?? undefined,
       address: employee.address ?? "",
       status: employee.status,
+      roleId: employee.user?.role?.id,
       isLoginActive: employee.user?.status === "ACTIVE",
     });
   }, [open, employee, form]);
@@ -78,6 +79,7 @@ export default function EmployeeFormModal({
       salary: values.salary ?? undefined,
       designationId: values.designationId,
       status: values.status,
+      roleId: values.roleId,
       isLoginActive: values.isLoginActive,
     };
 
@@ -90,8 +92,7 @@ export default function EmployeeFormModal({
           ...profile,
           email: values.email!.trim().toLowerCase(),
           password: values.password?.trim() || undefined,
-          // No roleId: the designation carries the role, and the API reads it
-          // from there. Sending one here would be a second source of truth.
+          roleId: values.roleId!,
         }).unwrap();
 
         toast.success("Employee added", `${created.firstName} ${created.lastName}`);

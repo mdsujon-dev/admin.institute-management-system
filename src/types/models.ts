@@ -97,9 +97,6 @@ export interface Designation {
   isHidden: boolean;
   createdAt: string;
   updatedAt: string;
-  /** The role an employee receives when given this designation. */
-  roleId: string | null;
-  role?: (RoleRef & { isActive: boolean }) | null;
   /** Present on the list endpoint only. */
   employeeCount?: number;
 }

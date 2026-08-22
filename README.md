@@ -1,8 +1,8 @@
 # Institute Management System — Admin
 
 React admin console for the Institute Management System API. Ant Design for the
-components, Tailwind for layout, Redux Toolkit / RTK Query for data, and a
-permission layer that mirrors the backend guards.
+components, Tailwind for layout, Redux Toolkit / RTK Query for data, sonner for
+toasts, and a permission layer that mirrors the backend guards.
 
 ## Running it
 
@@ -30,7 +30,8 @@ npm run lint
 ```
 src/
   app entry            App.tsx, main.tsx
-  providers/           store, theme, antd config -- composed in AppProviders
+  providers/           store, theme, antd config, toaster -- composed in
+                       AppProviders
   redux/
     api/               baseApi (cache, tags) + baseQuery (auth + silent refresh)
     features/<domain>/  <domain>.api.ts, and the slice where there is one
@@ -49,6 +50,8 @@ src/
     layout/            sidebar, header, profile menu, theme toggle, AuthShell
     rbac/              <Can>
     common/            PageMeta, ScrollToTop, MessagePage
+    form/shared/       fields shared by several forms (StatusField)
+    modal/shared/      dialogs not tied to one domain (TemporaryPasswordModal)
   hooks/               every hook in the app, one per file -- useListQuery,
                        useCrudDialogs, usePermissions, useToast, useRoleOptions,
                        use<Domain>Columns, ...
@@ -89,6 +92,18 @@ Ant Design's styles are wrapped in a CSS layer (`<StyleProvider layer>` plus the
 actually wins. Without it, `className="lg:hidden"` on a Button silently does
 nothing.
 
+### Toasts
+
+`useToast()` is the only way to raise one — `toast.success(title, description)`,
+bottom right, with a close button. It goes through **sonner** rather than antd's
+`message`, and the look is set once in
+[providers/ToastProvider.tsx](src/providers/ToastProvider.tsx).
+
+Sonner injects its stylesheet **unlayered**, and unlayered CSS beats layered CSS
+whatever the specificity — so the toast rules at the end of `index.css` are the
+one block deliberately outside every `@layer`, and they match the shape of the
+selectors they override. Move them into a layer and they silently stop applying.
+
 ### Sessions and the silent refresh
 
 The access token lives in `localStorage`; the refresh token is an httpOnly
@@ -111,19 +126,28 @@ admin-created account on `/change-password` until it sets its own password.
 
 Three things decide what somebody can do, and they are read in this order:
 
-1. **Designation → role.** A designation carries the role its holders sign in
-   with, so adding an employee is one decision, not two: pick the designation
-   and the login gets the right role. `Designation.roleId` is where that lives.
+1. **Account → role.** The role is picked when the employee is created, in the
+   Login block of their form, and can be changed there later. It belongs to the
+   account, not to the job title: two people can share a designation and still
+   need different access. A designation is only a job title.
 2. **Role → permissions.** The role is the baseline for everybody who holds it,
    edited on `/roles/:id/permissions`.
 3. **Account → extra permissions.** One person can be granted more than their
-   role gives, on `/users/:id/permissions`. Extras are additive only -- they can
-   widen what somebody may do, never narrow it, so "what does this role allow"
-   keeps a single answer.
+   role gives, reached from their row on `/employees` or `/students` and edited
+   on `/users/:id/permissions`, where the role's own grants show ticked and
+   locked. Extras are additive only -- they can widen what somebody may do,
+   never narrow it, so "what does this role allow" keeps a single answer.
 
-Roles and designations both have a **status**. Switching one off leaves the
-people who already hold it alone, but stops it being handed to anybody new --
-the API refuses it, so it is not merely hidden in the UI.
+**There is no users screen.** A user is not a separate thing to create: an
+employee is an account, and so is a student. Their email, whether they can sign
+in and what they may do all live on their own row, and `/users` redirects to
+`/employees`.
+
+Roles, designations and logins all have a **status**, switched from the row or
+from the form with the same [StatusSwitch](src/components/ui/Switch/StatusSwitch.tsx).
+Switching one off leaves the people who already hold it alone, but stops it
+being handed to anybody new -- the API refuses it, so it is not merely hidden in
+the UI. Toggling from a table spins only that row.
 
 Audit logs are scoped to the viewer: `log.read` shows an operator their own
 trail, and `log.readAll` widens it to everybody's.

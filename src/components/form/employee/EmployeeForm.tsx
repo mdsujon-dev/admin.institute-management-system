@@ -9,6 +9,7 @@ import type { EmployeeStatus, Gender } from "@/types/models";
 export interface EmployeeFormValues {
   email?: string;
   password?: string;
+  roleId?: string;
   isLoginActive?: boolean;
   firstName: string;
   lastName: string;
@@ -85,12 +86,7 @@ export default function EmployeeForm({ form, onFinish, isEditing }: EmployeeForm
           rules={
             isEditing
               ? undefined
-              : [
-                  {
-                    required: true,
-                    message: "Pick a designation -- it decides the role they sign in with.",
-                  },
-                ]
+              : [{ required: true, message: "Pick a designation." }]
           }
         >
           <Select
@@ -104,11 +100,7 @@ export default function EmployeeForm({ form, onFinish, isEditing }: EmployeeForm
           <InputNumber className="w-full" size="large" min={0} step={500} placeholder="45000" />
         </Form.Item>
 
-        <Form.Item
-          name="status"
-          label="Employment status"
-          extra="Where they are in their time here. Separate from whether they can sign in."
-        >
+        <Form.Item name="status" label="Employment status">
           <Select options={EMPLOYEE_STATUS_OPTIONS} />
         </Form.Item>
       </div>

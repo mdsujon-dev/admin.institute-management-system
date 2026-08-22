@@ -6,8 +6,6 @@ import type { Designation } from "@/types/models";
 export interface DesignationPayload {
   title: string;
   description?: string;
-  /** The role its holders sign in with. */
-  roleId?: string;
   isActive?: boolean;
 }
 

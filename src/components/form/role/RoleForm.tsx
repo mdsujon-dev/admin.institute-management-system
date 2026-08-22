@@ -44,7 +44,7 @@ export default function RoleForm({ form, onFinish, isSystemRole }: RoleFormProps
             message: "Upper case letters, digits and underscores, e.g. LIBRARIAN.",
           },
         ]}
-        extra={isSystemRole ? "Seeded roles cannot be renamed." : "Upper case, no spaces."}
+        extra={isSystemRole ? "Seeded roles cannot be renamed." : undefined}
         normalize={(value: string) => value?.toUpperCase()}
       >
         <Input placeholder="LIBRARIAN" disabled={isSystemRole} />
@@ -54,10 +54,7 @@ export default function RoleForm({ form, onFinish, isSystemRole }: RoleFormProps
         <TextArea rows={2} maxLength={255} placeholder="What this role is for" />
       </Form.Item>
 
-      <StatusField
-        className="mb-0"
-        extra="A switched off role stays with the accounts that already have it, but cannot be given to anybody new."
-      />
+      <StatusField className="mb-0" />
     </Form>
   );
 }

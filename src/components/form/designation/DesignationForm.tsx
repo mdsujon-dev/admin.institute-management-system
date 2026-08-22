@@ -1,12 +1,10 @@
 import { Form, type FormInstance } from "antd";
 import StatusField from "@/components/form/shared/StatusField";
-import { Input, Select, TextArea } from "@/components/ui";
-import { useRoleOptions } from "@/hooks/useRoleOptions";
+import { Input, TextArea } from "@/components/ui";
 
 export interface DesignationFormValues {
   title: string;
   description?: string;
-  roleId?: string;
   isActive: boolean;
 }
 
@@ -16,17 +14,14 @@ interface DesignationFormProps {
 }
 
 /**
- * What a staff member does and -- the part that matters most -- the role anyone
- * given this designation signs in with. Keeping the role here is what makes
- * "designation decides access" true, rather than something an operator has to
- * remember to set twice.
+ * A job title, and nothing more. Access is decided by the role on the account,
+ * chosen when the employee is created -- two people can share a designation and
+ * still need different access, so the two are kept apart.
  *
  * One field per row: the dialog is short, and reading it straight down beats a
  * grid that makes the eye zig-zag.
  */
 export default function DesignationForm({ form, onFinish }: DesignationFormProps) {
-  const { options: roleOptions, isLoading: isLoadingRoles } = useRoleOptions();
-
   return (
     <Form<DesignationFormValues>
       form={form}
@@ -50,23 +45,7 @@ export default function DesignationForm({ form, onFinish }: DesignationFormProps
         <TextArea rows={2} maxLength={255} placeholder="What this job is responsible for" />
       </Form.Item>
 
-      <Form.Item
-        name="roleId"
-        label="Role"
-        extra="Anyone given this designation signs in with this role."
-      >
-        <Select
-          allowClear
-          options={roleOptions}
-          loading={isLoadingRoles}
-          placeholder="No role yet"
-        />
-      </Form.Item>
-
-      <StatusField
-        className="mb-0"
-        extra="A switched off designation is kept for current staff, but is not offered to new ones."
-      />
+      <StatusField className="mb-0" />
     </Form>
   );
 }

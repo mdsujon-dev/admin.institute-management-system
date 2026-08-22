@@ -1,10 +1,11 @@
 import type { ColumnsType } from "antd/es/table";
+import { Tag } from "antd";
 import LoginStatusSwitch from "@/components/rbac/LoginStatusSwitch";
 import PermissionsButton from "@/components/rbac/PermissionsButton";
 import { InitialsAvatar, StatusTag, Text } from "@/components/ui";
 import RowActions from "@/components/ui/DataTable/RowActions";
 import type { Employee } from "@/types/models";
-import { formatCurrency, formatDate, fullName } from "@/utils/format";
+import { formatCurrency, formatDate, fullName, humanise } from "@/utils/format";
 
 interface Options {
   onEdit: (employee: Employee) => void;
@@ -51,6 +52,19 @@ export function useEmployeeColumns({
       render: (_, employee) =>
         employee.designation ? (
           <Text size="body-sm">{employee.designation.title}</Text>
+        ) : (
+          <span className="text-gray-400">&mdash;</span>
+        ),
+    },
+    {
+      title: "Role",
+      key: "role",
+      responsive: ["lg"],
+      render: (_, employee) =>
+        employee.user?.role ? (
+          <Tag bordered={false} color="cyan">
+            {humanise(employee.user.role.name)}
+          </Tag>
         ) : (
           <span className="text-gray-400">&mdash;</span>
         ),

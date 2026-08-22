@@ -37,7 +37,6 @@ export default function DesignationFormModal({
     form.setFieldsValue({
       title: designation?.title ?? "",
       description: designation?.description ?? "",
-      roleId: designation?.roleId ?? undefined,
       isActive: designation?.isActive ?? true,
     });
   }, [open, designation, form]);
@@ -48,7 +47,6 @@ export default function DesignationFormModal({
     const body = {
       title: values.title.trim(),
       description: values.description?.trim() || undefined,
-      roleId: values.roleId || undefined,
       isActive: values.isActive,
     };
 

@@ -2,7 +2,6 @@ import type { ColumnsType } from "antd/es/table";
 import { Tag } from "antd";
 import { StatusSwitch, Text } from "@/components/ui";
 import Can from "@/components/rbac/Can";
-import { humanise } from "@/utils/format";
 import RowActions from "@/components/ui/DataTable/RowActions";
 import type { Designation } from "@/types/models";
 
@@ -16,9 +15,9 @@ interface Options {
 }
 
 /**
- * A designation is a title, the role it carries, and whether it is still on
- * offer. When it was created is not part of that, so the table does not carry
- * a column for it -- the row is the job, not its paperwork.
+ * A designation is a title and whether it is still on offer. When it was
+ * created is not part of that, so the table does not carry a column for it --
+ * the row is the job, not its paperwork.
  */
 export function useDesignationColumns({
   onEdit,
@@ -48,20 +47,6 @@ export function useDesignationColumns({
           )}
         </div>
       ),
-    },
-    {
-      title: "Role",
-      key: "role",
-      render: (_, designation) =>
-        designation.role ? (
-          <Tag bordered={false} color="cyan">
-            {humanise(designation.role.name)}
-          </Tag>
-        ) : (
-          <Text size="body-sm" tone="subtle">
-            No role yet
-          </Text>
-        ),
     },
     {
       title: "Status",
