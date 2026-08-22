@@ -42,6 +42,34 @@
   ::selection {
     @apply bg-brand-100 text-brand-900;
   }
+
+  /* One scrollbar for the whole app: 2px, no track, out of the way. Firefox
+     has no pixel control, so `thin` is the closest it offers. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-gray-300) transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-gray-300;
+  }
+
+  .dark * {
+    scrollbar-color: var(--color-gray-700) transparent;
+  }
+
+  .dark *::-webkit-scrollbar-thumb {
+    @apply bg-gray-700;
+  }
 }
 
 @utility no-scrollbar {
@@ -50,24 +78,6 @@
 
   &::-webkit-scrollbar {
     display: none;
-  }
-}
-
-/** Thin scrollbar for panels that scroll inside the page (menus, tables). */
-@utility thin-scrollbar {
-  scrollbar-width: thin;
-
-  &::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    @apply rounded-full bg-gray-300 dark:bg-gray-700;
   }
 }
 

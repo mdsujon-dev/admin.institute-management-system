@@ -22,7 +22,7 @@ export default function SidebarFooter({ collapsed, onDone }: SidebarFooterProps)
   };
 
   return (
-    <div className="shrink-0 border-t border-gray-200 p-3 dark:border-gray-800">
+    <div className="shrink-0 border-t border-gray-200 px-3 py-2 dark:border-gray-800">
       <Tooltip title={collapsed ? "Sign out" : undefined} placement="right">
         <Button
           block

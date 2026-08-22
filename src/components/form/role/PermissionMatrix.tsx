@@ -70,7 +70,7 @@ export default function PermissionMatrix({
         </Button>
       </div>
 
-      <div className="max-h-72 overflow-y-auto thin-scrollbar">
+      <div className="max-h-72 overflow-y-auto">
         <table className="w-full">
           <thead className="sticky top-0 bg-white dark:bg-gray-900">
             <tr className="border-b border-gray-200 dark:border-gray-800">

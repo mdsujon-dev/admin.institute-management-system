@@ -34,6 +34,7 @@ export default function StatGrid() {
       {can("student.read") && (
         <StatCard
           label="Students"
+          tone="brand"
           icon={<SolutionOutlined />}
           value={formatNumber(students.data?.meta.total)}
           isLoading={students.isLoading}
@@ -43,6 +44,7 @@ export default function StatGrid() {
       {can("employee.read") && (
         <StatCard
           label="Employees"
+          tone="info"
           icon={<TeamOutlined />}
           value={formatNumber(employees.data?.meta.total)}
           isLoading={employees.isLoading}
@@ -52,6 +54,7 @@ export default function StatGrid() {
       {can("user.read") && (
         <StatCard
           label="Login accounts"
+          tone="success"
           icon={<IdcardOutlined />}
           value={formatNumber(users.data?.meta.total)}
           isLoading={users.isLoading}
@@ -61,6 +64,7 @@ export default function StatGrid() {
       {can("designation.read") && (
         <StatCard
           label="Designations"
+          tone="warning"
           icon={<ContactsOutlined />}
           value={formatNumber(designations.data?.meta.total)}
           isLoading={designations.isLoading}
