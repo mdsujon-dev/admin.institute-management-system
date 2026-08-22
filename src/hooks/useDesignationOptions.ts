@@ -3,7 +3,14 @@ import type { SelectOption } from "@/components/ui";
 import { useGetDesignationsQuery } from "@/redux/features/designations/designations.api";
 import { usePermissions } from "./usePermissions";
 
-const LOOKUP_PARAMS = { page: 1, limit: 100, sortBy: "title", sortOrder: "asc" } as const;
+/** Only what is still on offer: a switched off designation is not a choice. */
+const LOOKUP_PARAMS = {
+  page: 1,
+  limit: 100,
+  sortBy: "title",
+  sortOrder: "asc",
+  isActive: true,
+} as const;
 
 /** Designations for the staff forms, in the same shape as `useRoleOptions`. */
 export function useDesignationOptions() {

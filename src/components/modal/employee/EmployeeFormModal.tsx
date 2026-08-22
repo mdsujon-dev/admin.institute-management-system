@@ -88,7 +88,8 @@ export default function EmployeeFormModal({
           ...profile,
           email: values.email!.trim().toLowerCase(),
           password: values.password?.trim() || undefined,
-          roleId: values.roleId!,
+          // No roleId: the designation carries the role, and the API reads it
+          // from there. Sending one here would be a second source of truth.
         }).unwrap();
 
         toast.success("Employee added", `${created.firstName} ${created.lastName}`);

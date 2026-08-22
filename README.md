@@ -107,6 +107,27 @@ only says which query to use:
 `SessionGate` restores the session on start-up, and `needsPasswordChange` pins an
 admin-created account on `/change-password` until it sets its own password.
 
+### Access model
+
+Three things decide what somebody can do, and they are read in this order:
+
+1. **Designation → role.** A designation carries the role its holders sign in
+   with, so adding an employee is one decision, not two: pick the designation
+   and the login gets the right role. `Designation.roleId` is where that lives.
+2. **Role → permissions.** The role is the baseline for everybody who holds it,
+   edited on `/roles/:id/permissions`.
+3. **Account → extra permissions.** One person can be granted more than their
+   role gives, on `/users/:id/permissions`. Extras are additive only -- they can
+   widen what somebody may do, never narrow it, so "what does this role allow"
+   keeps a single answer.
+
+Roles and designations both have a **status**. Switching one off leaves the
+people who already hold it alone, but stops it being handed to anybody new --
+the API refuses it, so it is not merely hidden in the UI.
+
+Audit logs are scoped to the viewer: `log.read` shows an operator their own
+trail, and `log.readAll` widens it to everybody's.
+
 ### Permissions
 
 `usePermissions()` is the only place the frontend decides what may be done, and

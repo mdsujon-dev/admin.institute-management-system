@@ -8,6 +8,7 @@ export interface RolePayload {
   description?: string;
   /** The complete set the role should end up with -- the API replaces, not merges. */
   permissions?: string[];
+  isActive?: boolean;
 }
 
 export const rolesApi = baseApi.injectEndpoints({

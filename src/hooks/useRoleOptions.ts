@@ -5,7 +5,14 @@ import { humanise } from "@/utils/format";
 import { usePermissions } from "./usePermissions";
 
 /** Dropdowns need every row, not the first page of ten. 100 is the API ceiling. */
-const LOOKUP_PARAMS = { page: 1, limit: 100, sortBy: "name", sortOrder: "asc" } as const;
+/** Only roles still in use: a switched off role cannot be handed out. */
+const LOOKUP_PARAMS = {
+  page: 1,
+  limit: 100,
+  sortBy: "name",
+  sortOrder: "asc",
+  isActive: true,
+} as const;
 
 /**
  * Roles for the "which login is this" dropdowns.

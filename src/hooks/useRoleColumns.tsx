@@ -4,20 +4,29 @@ import { ShieldCheck } from "lucide-react";
 import { Link } from "react-router";
 import RowActions from "@/components/ui/DataTable/RowActions";
 import Can from "@/components/rbac/Can";
-import { Button, Text } from "@/components/ui";
+import { Button, StatusSwitch, Text } from "@/components/ui";
 import { ALL_PERMISSIONS } from "@/constants/permissions";
 import type { Role } from "@/types/models";
 
 interface Options {
   onEdit: (role: Role) => void;
   onDelete: (role: Role) => void;
+  /** Switches a role on or off from the table itself. */
+  onToggleStatus: (role: Role, isActive: boolean) => void;
+  /** The row whose status is saving right now, if any. */
+  togglingId?: string | null;
 }
 
 /**
  * The columns of the roles table, kept out of the page so the same table can be
  * embedded elsewhere without dragging a screen's worth of code with it.
  */
-export function useRoleColumns({ onEdit, onDelete }: Options): ColumnsType<Role> {
+export function useRoleColumns({
+  onEdit,
+  onDelete,
+  onToggleStatus,
+  togglingId,
+}: Options): ColumnsType<Role> {
   return [
     {
       title: "Role",
@@ -66,6 +75,22 @@ export function useRoleColumns({ onEdit, onDelete }: Options): ColumnsType<Role>
       key: "userCount",
       responsive: ["sm"],
       render: (_, role) => <Text size="body-sm">{role.userCount}</Text>,
+    },
+    {
+      title: "Status",
+      key: "isActive",
+      render: (_, role) => (
+        <Can
+          permission="role.update"
+          fallback={<Text size="body-sm">{role.isActive ? "Active" : "Inactive"}</Text>}
+        >
+          <StatusSwitch
+            checked={role.isActive}
+            loading={togglingId === role.id}
+            onChange={(isActive) => onToggleStatus(role, isActive)}
+          />
+        </Can>
+      ),
     },
     {
       title: "",

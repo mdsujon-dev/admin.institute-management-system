@@ -34,6 +34,7 @@ export default function RoleFormModal({ open, onClose, role }: RoleFormModalProp
     form.setFieldsValue({
       name: role?.name ?? "",
       description: role?.description ?? "",
+      isActive: role?.isActive ?? true,
     });
   }, [open, role, form]);
 
@@ -43,6 +44,7 @@ export default function RoleFormModal({ open, onClose, role }: RoleFormModalProp
     const body = {
       name: values.name.trim().toUpperCase(),
       description: values.description?.trim() || undefined,
+      isActive: values.isActive,
     };
 
     try {
@@ -51,7 +53,9 @@ export default function RoleFormModal({ open, onClose, role }: RoleFormModalProp
         await updateRole({
           id: role.id,
           // A system role cannot be renamed, so only the description goes.
-          body: role.isSystem ? { description: body.description } : body,
+          body: role.isSystem
+            ? { description: body.description, isActive: body.isActive }
+            : body,
         }).unwrap();
         toast.success("Role updated", body.name);
       } else {

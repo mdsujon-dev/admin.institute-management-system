@@ -11,8 +11,12 @@ import { useListQuery } from "@/hooks/useListQuery";
 import { useRoleOptions } from "@/hooks/useRoleOptions";
 import { usePermissions } from "@/hooks/usePermissions";
 import { useToast } from "@/hooks/useToast";
-import { useDeleteUserMutation, useGetUsersQuery } from "@/redux/features/users/users.api";
-import type { User } from "@/types/models";
+import {
+  useDeleteUserMutation,
+  useGetUsersQuery,
+  useUpdateUserMutation,
+} from "@/redux/features/users/users.api";
+import type { User, UserStatus } from "@/types/models";
 import { getErrorMessage } from "@/utils/apiError";
 
 export interface UserListProps {
@@ -49,10 +53,32 @@ export default function UserList({
 
   const { data, isLoading, isFetching, error, refetch } = useGetUsersQuery(list.params);
   const [deleteUser, { isLoading: isDeleting }] = useDeleteUserMutation();
+  const [updateUser] = useUpdateUserMutation();
+
+  /** Which row's status is saving, so only that switch spins. */
+  const [togglingId, setTogglingId] = useState<string | null>(null);
+
+  const handleToggleStatus = async (user: User, status: UserStatus) => {
+    setTogglingId(user.id);
+
+    try {
+      await updateUser({ id: user.id, body: { status } }).unwrap();
+      toast.success(
+        status === "ACTIVE" ? "Account enabled" : "Account disabled",
+        user.email,
+      );
+    } catch (updateError) {
+      toast.error("Could not change status", getErrorMessage(updateError));
+    } finally {
+      setTogglingId(null);
+    }
+  };
 
   const columns = useUserColumns({
     onEdit: dialogs.openEdit,
     onDelete: dialogs.openDelete,
+    onToggleStatus: (user, status) => void handleToggleStatus(user, status),
+    togglingId,
     currentUserId: currentUser?.id,
   });
 

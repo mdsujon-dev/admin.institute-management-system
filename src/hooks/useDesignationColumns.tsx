@@ -1,6 +1,8 @@
 import type { ColumnsType } from "antd/es/table";
 import { Tag } from "antd";
-import { Text } from "@/components/ui";
+import { StatusSwitch, Text } from "@/components/ui";
+import Can from "@/components/rbac/Can";
+import { humanise } from "@/utils/format";
 import RowActions from "@/components/ui/DataTable/RowActions";
 import type { Designation } from "@/types/models";
 import { formatDate } from "@/utils/format";
@@ -8,11 +10,17 @@ import { formatDate } from "@/utils/format";
 interface Options {
   onEdit: (designation: Designation) => void;
   onDelete: (designation: Designation) => void;
+  /** Switches a designation on or off from the table itself. */
+  onToggleStatus: (designation: Designation, isActive: boolean) => void;
+  /** The row whose status is saving right now, if any. */
+  togglingId?: string | null;
 }
 
 export function useDesignationColumns({
   onEdit,
   onDelete,
+  onToggleStatus,
+  togglingId,
 }: Options): ColumnsType<Designation> {
   return [
     {
@@ -47,6 +55,43 @@ export function useDesignationColumns({
         ) : (
           <span className="text-gray-400">&mdash;</span>
         ),
+    },
+    {
+      title: "Role",
+      key: "role",
+      render: (_, designation) =>
+        designation.role ? (
+          <Tag bordered={false} color="cyan">
+            {humanise(designation.role.name)}
+          </Tag>
+        ) : (
+          <Text size="body-sm" tone="subtle">
+            No role yet
+          </Text>
+        ),
+    },
+    {
+      title: "Status",
+      key: "isActive",
+      responsive: ["md"],
+      render: (_, designation) => (
+        <Can
+          permission="designation.update"
+          fallback={
+            <Text size="body-sm">{designation.isActive ? "Active" : "Inactive"}</Text>
+          }
+        >
+          <StatusSwitch
+            checked={designation.isActive}
+            loading={togglingId === designation.id}
+            disabled={designation.isSystem}
+            disabledReason={
+              designation.isSystem ? "System designations cannot be changed" : undefined
+            }
+            onChange={(isActive) => onToggleStatus(designation, isActive)}
+          />
+        </Can>
+      ),
     },
     {
       title: "Employees",

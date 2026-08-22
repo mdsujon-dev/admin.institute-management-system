@@ -13,6 +13,12 @@ interface PermissionMatrixProps {
   value?: string[];
   onChange?: (codes: string[]) => void;
   disabled?: boolean;
+  /**
+   * Codes that are ticked but not this screen's to change -- used by the
+   * per-account screen to show what the role already grants without letting
+   * somebody untick it here.
+   */
+  lockedValue?: string[];
 }
 
 /**
@@ -40,13 +46,17 @@ export default function PermissionMatrix({
   value = [],
   onChange,
   disabled = false,
+  lockedValue = [],
 }: PermissionMatrixProps) {
   const granted = new Set(value);
+  const locked = new Set(lockedValue);
   const allSelected = ALL_CODES.every((code) => granted.has(code));
 
   const emit = (next: Set<string>) => onChange?.([...next]);
 
   const toggle = (code: string) => {
+    if (locked.has(code)) return;
+
     const next = new Set(granted);
 
     if (next.has(code)) {
@@ -60,7 +70,10 @@ export default function PermissionMatrix({
 
   const toggleSubject = (codes: string[], allOn: boolean) => {
     const next = new Set(granted);
-    codes.forEach((code) => (allOn ? next.delete(code) : next.add(code)));
+    codes
+      .filter((code) => !locked.has(code))
+      .forEach((code) => (allOn ? next.delete(code) : next.add(code)));
+
     emit(next);
   };
 
@@ -74,13 +87,13 @@ export default function PermissionMatrix({
           variant="link"
           size="sm"
           disabled={disabled}
-          onClick={() => onChange?.(allSelected ? [] : ALL_CODES)}
+          onClick={() => onChange?.(allSelected ? [...locked] : ALL_CODES)}
         >
           {allSelected ? "Clear all" : "Select all"}
         </Button>
       </div>
 
-      <div className="max-h-72 overflow-y-auto">
+      <div className="overflow-x-auto">
         <table className="w-full">
           <thead className="sticky top-0 z-10 [&_th]:bg-white dark:[&_th]:bg-gray-900">
             <tr className="border-b border-gray-200 dark:border-gray-800">
@@ -122,7 +135,7 @@ export default function PermissionMatrix({
                       <td key={action} className="px-2 py-2.5 text-center">
                         {permission ? (
                           <Checkbox
-                            disabled={disabled}
+                            disabled={disabled || locked.has(permission.code)}
                             checked={granted.has(permission.code)}
                             onChange={() => toggle(permission.code)}
                             aria-label={`${ACTION_LABELS[action]} ${SUBJECT_LABELS[subject]}`}

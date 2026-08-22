@@ -38,6 +38,8 @@ export default function DesignationFormModal({
       title: designation?.title ?? "",
       department: designation?.department ?? "",
       description: designation?.description ?? "",
+      roleId: designation?.roleId ?? undefined,
+      isActive: designation?.isActive ?? true,
     });
   }, [open, designation, form]);
 
@@ -48,6 +50,8 @@ export default function DesignationFormModal({
       title: values.title.trim(),
       department: values.department?.trim() || undefined,
       description: values.description?.trim() || undefined,
+      roleId: values.roleId || undefined,
+      isActive: values.isActive,
     };
 
     try {

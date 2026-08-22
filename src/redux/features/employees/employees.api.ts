@@ -7,7 +7,8 @@ import type { Employee, EmployeeStatus, Gender } from "@/types/models";
 export interface CreateEmployeePayload {
   email: string;
   password?: string;
-  roleId: string;
+  /** Optional: the designation already carries the role its holders get. */
+  roleId?: string;
   firstName: string;
   lastName: string;
   phone?: string;

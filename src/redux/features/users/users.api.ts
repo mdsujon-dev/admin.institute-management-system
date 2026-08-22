@@ -49,6 +49,28 @@ export const usersApi = baseApi.injectEndpoints({
       ],
     }),
 
+    /**
+     * Replaces the extras granted to one account. These are added to whatever
+     * its role already allows -- they never take a permission away.
+     */
+    setUserPermissions: builder.mutation<
+      UserDetail,
+      { id: string; permissions: string[] }
+    >({
+      query: ({ id, permissions }) => ({
+        url: `/users/${id}/permissions`,
+        method: "PUT",
+        body: { permissions },
+      }),
+      transformResponse: unwrap<UserDetail>,
+      invalidatesTags: (_result, _error, { id }) => [
+        { type: "User", id },
+        { type: "User", id: "LIST" },
+        // The signed in account may have just changed what it can see.
+        "Auth",
+      ],
+    }),
+
     deleteUser: builder.mutation<null, string>({
       query: (id) => ({ url: `/users/${id}`, method: "DELETE" }),
       transformResponse: (response: ApiResponse<null>) => response.data,
@@ -65,5 +87,6 @@ export const {
   useGetUserQuery,
   useCreateUserMutation,
   useUpdateUserMutation,
+  useSetUserPermissionsMutation,
   useDeleteUserMutation,
 } = usersApi;

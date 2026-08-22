@@ -18,6 +18,7 @@ const StudentsPage = lazy(() => import("@/pages/students/StudentsPage"));
 const EmployeesPage = lazy(() => import("@/pages/employees/EmployeesPage"));
 const DesignationsPage = lazy(() => import("@/pages/designations/DesignationsPage"));
 const UsersPage = lazy(() => import("@/pages/users/UsersPage"));
+const UserPermissionsPage = lazy(() => import("@/pages/users/UserPermissionsPage"));
 const RolesPage = lazy(() => import("@/pages/roles/RolesPage"));
 const RolePermissionsPage = lazy(() => import("@/pages/roles/RolePermissionsPage"));
 const ActivityLogsPage = lazy(() => import("@/pages/logs/ActivityLogsPage"));
@@ -77,6 +78,10 @@ export default function AppRoutes() {
         <Route element={<ProtectedRoute permission="user.read" />}>
           <Route element={<AppLayout />}>
             <Route path="/users" element={<UsersPage />} />
+            <Route
+              path="/users/:userId/permissions"
+              element={<UserPermissionsPage />}
+            />
           </Route>
         </Route>
 

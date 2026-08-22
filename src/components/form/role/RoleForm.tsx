@@ -1,9 +1,10 @@
-import { Form, type FormInstance } from "antd";
+import { Form, Switch, type FormInstance } from "antd";
 import { Input, TextArea } from "@/components/ui";
 
 export interface RoleFormValues {
   name: string;
   description?: string;
+  isActive: boolean;
 }
 
 interface RoleFormProps {
@@ -27,6 +28,7 @@ export default function RoleForm({ form, onFinish, isSystemRole }: RoleFormProps
       layout="vertical"
       requiredMark="optional"
       onFinish={onFinish}
+      initialValues={{ isActive: true }}
     >
       <div className="grid grid-cols-1 gap-x-4 sm:grid-cols-2">
         <Form.Item
@@ -49,6 +51,16 @@ export default function RoleForm({ form, onFinish, isSystemRole }: RoleFormProps
           <TextArea rows={2} maxLength={255} placeholder="What this role is for" />
         </Form.Item>
       </div>
+
+      <Form.Item
+        name="isActive"
+        label="Status"
+        valuePropName="checked"
+        className="mb-0"
+        extra="A switched off role stays with the accounts that already have it, but cannot be given to anybody new."
+      >
+        <Switch checkedChildren="Active" unCheckedChildren="Inactive" />
+      </Form.Item>
     </Form>
   );
 }

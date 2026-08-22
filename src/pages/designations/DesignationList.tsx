@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { Button, Card, ConfirmModal, DataTable, FilterBar } from "@/components/ui";
 import Can from "@/components/rbac/Can";
 import DesignationFormModal from "@/components/modal/designation/DesignationFormModal";
@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/useToast";
 import {
   useDeleteDesignationMutation,
   useGetDesignationsQuery,
+  useUpdateDesignationMutation,
 } from "@/redux/features/designations/designations.api";
 import type { Designation } from "@/types/models";
 import { getErrorMessage } from "@/utils/apiError";
@@ -36,10 +37,33 @@ export default function DesignationList({
     list.params,
   );
   const [deleteDesignation, { isLoading: isDeleting }] = useDeleteDesignationMutation();
+  const [updateDesignation] = useUpdateDesignationMutation();
+
+  /** Which row's status is saving, so only that switch spins. */
+  const [togglingId, setTogglingId] = useState<string | null>(null);
+
+  const handleToggleStatus = async (designation: Designation, isActive: boolean) => {
+    setTogglingId(designation.id);
+
+    try {
+      await updateDesignation({ id: designation.id, body: { isActive } }).unwrap();
+      toast.success(
+        isActive ? "Designation switched on" : "Designation switched off",
+        designation.title,
+      );
+    } catch (updateError) {
+      toast.error("Could not change status", getErrorMessage(updateError));
+    } finally {
+      setTogglingId(null);
+    }
+  };
 
   const columns = useDesignationColumns({
     onEdit: dialogs.openEdit,
     onDelete: dialogs.openDelete,
+    onToggleStatus: (designation, isActive) =>
+      void handleToggleStatus(designation, isActive),
+    togglingId,
   });
 
   const handleDelete = async () => {

@@ -8,9 +8,10 @@ const DATE = new Intl.DateTimeFormat("en-GB", {
   year: "numeric",
 });
 
-const TIME = new Intl.DateTimeFormat("en-GB", {
-  hour: "2-digit",
+const TIME = new Intl.DateTimeFormat("en-US", {
+  hour: "numeric",
   minute: "2-digit",
+  hour12: true,
 });
 
 /**

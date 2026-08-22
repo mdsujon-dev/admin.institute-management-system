@@ -79,8 +79,25 @@ export default function EmployeeForm({ form, onFinish, isEditing }: EmployeeForm
           <DatePicker className="w-full" size="large" />
         </Form.Item>
 
-        <Form.Item name="designationId" label="Designation">
-          <Select allowClear options={designationOptions} placeholder="No designation" />
+        <Form.Item
+          name="designationId"
+          label="Designation"
+          rules={
+            isEditing
+              ? undefined
+              : [
+                  {
+                    required: true,
+                    message: "Pick a designation -- it decides the role they sign in with.",
+                  },
+                ]
+          }
+        >
+          <Select
+            allowClear={isEditing}
+            options={designationOptions}
+            placeholder="Select a designation"
+          />
         </Form.Item>
 
         <Form.Item name="salary" label="Salary">

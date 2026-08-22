@@ -48,7 +48,12 @@ export interface User {
 }
 
 export interface UserDetail extends User {
+  /** Everything the account may do: the role's grants plus its own extras. */
   permissions: string[];
+  /** What the role gives, on its own. */
+  rolePermissions: string[];
+  /** What was granted to this one account, on top of the role. */
+  extraPermissions: string[];
   employee: { id: string; employeeId: string; firstName: string; lastName: string } | null;
   student: { id: string; studentId: string; firstName: string; lastName: string } | null;
 }
@@ -57,6 +62,8 @@ export interface Role {
   id: string;
   name: string;
   description: string | null;
+  /** A switched off role can no longer be handed to an account. */
+  isActive: boolean;
   isSystem: boolean;
   isHidden: boolean;
   createdAt: string;
@@ -85,10 +92,15 @@ export interface Designation {
   title: string;
   department: string | null;
   description: string | null;
+  /** A switched off designation is no longer offered when adding staff. */
+  isActive: boolean;
   isSystem: boolean;
   isHidden: boolean;
   createdAt: string;
   updatedAt: string;
+  /** The role an employee receives when given this designation. */
+  roleId: string | null;
+  role?: (RoleRef & { isActive: boolean }) | null;
   /** Present on the list endpoint only. */
   employeeCount?: number;
 }

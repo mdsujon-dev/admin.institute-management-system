@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { Button, Card, ConfirmModal, DataTable, FilterBar } from "@/components/ui";
 import Can from "@/components/rbac/Can";
 import RoleFormModal from "@/components/modal/role/RoleFormModal";
@@ -7,7 +7,11 @@ import { useRoleColumns } from "@/hooks/useRoleColumns";
 import { useCrudDialogs } from "@/hooks/useCrudDialogs";
 import { useListQuery } from "@/hooks/useListQuery";
 import { useToast } from "@/hooks/useToast";
-import { useDeleteRoleMutation, useGetRolesQuery } from "@/redux/features/roles/roles.api";
+import {
+  useDeleteRoleMutation,
+  useGetRolesQuery,
+  useUpdateRoleMutation,
+} from "@/redux/features/roles/roles.api";
 import type { Role } from "@/types/models";
 import { getErrorMessage } from "@/utils/apiError";
 
@@ -39,10 +43,29 @@ export default function RoleList({
 
   const { data, isLoading, isFetching, error, refetch } = useGetRolesQuery(list.params);
   const [deleteRole, { isLoading: isDeleting }] = useDeleteRoleMutation();
+  const [updateRole] = useUpdateRoleMutation();
+
+  /** Which row's status is saving, so only that switch spins. */
+  const [togglingId, setTogglingId] = useState<string | null>(null);
+
+  const handleToggleStatus = async (role: Role, isActive: boolean) => {
+    setTogglingId(role.id);
+
+    try {
+      await updateRole({ id: role.id, body: { isActive } }).unwrap();
+      toast.success(isActive ? "Role switched on" : "Role switched off", role.name);
+    } catch (updateError) {
+      toast.error("Could not change status", getErrorMessage(updateError));
+    } finally {
+      setTogglingId(null);
+    }
+  };
 
   const columns = useRoleColumns({
     onEdit: dialogs.openEdit,
     onDelete: dialogs.openDelete,
+    onToggleStatus: (role, isActive) => void handleToggleStatus(role, isActive),
+    togglingId,
   });
 
   const handleDelete = async () => {

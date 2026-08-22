@@ -20,6 +20,7 @@ export { default as Modal } from "./Modal/Modal";
 export { default as FormModal } from "./Modal/FormModal";
 export { default as ConfirmModal } from "./Modal/ConfirmModal";
 export { default as StatusTag } from "./Tag/StatusTag";
+export { default as StatusSwitch } from "./Switch/StatusSwitch";
 export { default as InitialsAvatar } from "./Avatar/InitialsAvatar";
 export { default as EmptyState } from "./Feedback/EmptyState";
 export { default as ErrorState } from "./Feedback/ErrorState";
