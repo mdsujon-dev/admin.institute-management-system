@@ -1,4 +1,4 @@
-import { PlusOutlined } from "@ant-design/icons";
+import { Plus } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { Button, Card, ConfirmModal, DataTable, FilterBar, Select } from "@/components/ui";
 import Can from "@/components/rbac/Can";
@@ -96,7 +96,7 @@ export default function UserList({
               className="sm:w-44"
             />
             <Can permission="user.create">
-              <Button icon={<PlusOutlined />} onClick={dialogs.openCreate}>
+              <Button icon={<Plus />} onClick={dialogs.openCreate}>
                 New user
               </Button>
             </Can>

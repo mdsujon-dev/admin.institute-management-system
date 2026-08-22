@@ -1,9 +1,4 @@
-import {
-  ContactsOutlined,
-  IdcardOutlined,
-  SolutionOutlined,
-  TeamOutlined,
-} from "@ant-design/icons";
+import { BriefcaseBusiness, GraduationCap, IdCard, Users } from "lucide-react";
 import StatCard from "@/components/card/StatCard";
 import { usePermissions } from "@/hooks/usePermissions";
 import { useGetDesignationsQuery } from "@/redux/features/designations/designations.api";
@@ -41,7 +36,7 @@ export default function StatGrid() {
           tone="brand"
           label="Students"
           caption="Total admitted"
-          icon={<SolutionOutlined />}
+          icon={<GraduationCap />}
           value={formatNumber(students.data?.meta.total)}
           isLoading={students.isLoading}
         />
@@ -52,7 +47,7 @@ export default function StatGrid() {
           tone="info"
           label="Employees"
           caption="Total staff"
-          icon={<TeamOutlined />}
+          icon={<Users />}
           value={formatNumber(employees.data?.meta.total)}
           isLoading={employees.isLoading}
         />
@@ -63,7 +58,7 @@ export default function StatGrid() {
           tone="success"
           label="Login accounts"
           caption="Can sign in"
-          icon={<IdcardOutlined />}
+          icon={<IdCard />}
           value={formatNumber(users.data?.meta.total)}
           isLoading={users.isLoading}
         />
@@ -74,7 +69,7 @@ export default function StatGrid() {
           tone="warning"
           label="Designations"
           caption="Job titles"
-          icon={<ContactsOutlined />}
+          icon={<BriefcaseBusiness />}
           value={formatNumber(designations.data?.meta.total)}
           isLoading={designations.isLoading}
         />

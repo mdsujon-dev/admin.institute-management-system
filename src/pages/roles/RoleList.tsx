@@ -1,4 +1,4 @@
-import { PlusOutlined } from "@ant-design/icons";
+import { Plus } from "lucide-react";
 import type { ReactNode } from "react";
 import { Button, Card, ConfirmModal, DataTable, FilterBar } from "@/components/ui";
 import Can from "@/components/rbac/Can";
@@ -69,7 +69,7 @@ export default function RoleList({
             onReset={list.resetFilters}
           >
             <Can permission="role.create">
-              <Button icon={<PlusOutlined />} onClick={dialogs.openCreate}>
+              <Button icon={<Plus />} onClick={dialogs.openCreate}>
                 New role
               </Button>
             </Can>

@@ -1,4 +1,4 @@
-import { CompassOutlined } from "@ant-design/icons";
+import { Compass } from "lucide-react";
 import { Link } from "react-router";
 import { Button } from "@/components/ui";
 import PageMeta from "@/components/common/PageMeta";
@@ -9,7 +9,7 @@ export default function NotFoundPage() {
     <>
       <PageMeta title="Page not found" description="This page does not exist" />
       <MessagePage
-        icon={<CompassOutlined />}
+        icon={<Compass />}
         title="We cannot find that page"
         description="The link may be out of date, or the page may have been moved."
         action={

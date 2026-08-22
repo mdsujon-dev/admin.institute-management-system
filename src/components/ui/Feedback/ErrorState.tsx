@@ -1,4 +1,4 @@
-import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { CircleAlert } from "lucide-react";
 import Button from "@/components/ui/Button/Button";
 import Heading from "@/components/ui/Typography/Heading";
 import Text from "@/components/ui/Typography/Text";
@@ -18,7 +18,7 @@ export default function ErrorState({
   return (
     <div className="flex flex-col items-center justify-center gap-3 px-6 py-12 text-center">
       <span className="flex size-12 items-center justify-center rounded-full bg-error-50 text-h4 text-error-500 dark:bg-error-500/10">
-        <ExclamationCircleOutlined />
+        <CircleAlert />
       </span>
       <div>
         <Heading level={5}>{title}</Heading>

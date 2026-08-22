@@ -1,4 +1,4 @@
-import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
+import { Eye, Pencil, Trash2 } from "lucide-react";
 import { Tooltip } from "antd";
 import Button from "@/components/ui/Button/Button";
 import Can from "@/components/rbac/Can";
@@ -14,6 +14,9 @@ interface RowActionsProps {
   /** Set when the row is a seeded record that must not be touched. */
   lockedReason?: string;
 }
+
+/** 7px: two tighter than a form control, so a row of them reads as one unit. */
+const ICON_BUTTON = "rounded-[7px]";
 
 /**
  * The trailing actions of every table row. Each is a bordered button so it
@@ -40,7 +43,8 @@ export default function RowActions({
               variant="secondary"
               size="sm"
               aria-label="View"
-              icon={<EyeOutlined />}
+              className={ICON_BUTTON}
+              icon={<Eye />}
               onClick={onView}
             />
           </Tooltip>
@@ -54,7 +58,8 @@ export default function RowActions({
               variant="secondary"
               size="sm"
               aria-label="Edit"
-              icon={<EditOutlined />}
+              className={ICON_BUTTON}
+              icon={<Pencil />}
               disabled={locked}
               onClick={onEdit}
             />
@@ -69,7 +74,8 @@ export default function RowActions({
               variant="danger-outline"
               size="sm"
               aria-label="Delete"
-              icon={<DeleteOutlined />}
+              className={ICON_BUTTON}
+              icon={<Trash2 />}
               disabled={locked}
               onClick={onDelete}
             />

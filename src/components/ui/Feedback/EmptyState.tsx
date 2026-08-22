@@ -1,4 +1,4 @@
-import { InboxOutlined } from "@ant-design/icons";
+import { Inbox } from "lucide-react";
 import type { ReactNode } from "react";
 import Heading from "@/components/ui/Typography/Heading";
 import Text from "@/components/ui/Typography/Text";
@@ -20,7 +20,7 @@ export default function EmptyState({
   return (
     <div className="flex flex-col items-center justify-center gap-3 px-6 py-12 text-center">
       <span className="flex size-12 items-center justify-center rounded-full bg-brand-50 text-h4 text-brand-500 dark:bg-brand-500/10 dark:text-brand-400">
-        {icon ?? <InboxOutlined />}
+        {icon ?? <Inbox />}
       </span>
       <div>
         <Heading level={5}>{title}</Heading>

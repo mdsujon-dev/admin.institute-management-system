@@ -27,7 +27,7 @@ export default function PageHeader({
     <div className="mb-5 sm:mb-6">
       {showBreadcrumb && crumbs.length > 1 && (
         <Breadcrumb
-          className="mb-2 text-caption"
+          className="mb-0.5 text-caption"
           items={crumbs.map((crumb) => ({
             title: crumb.path ? <Link to={crumb.path}>{crumb.label}</Link> : crumb.label,
           }))}

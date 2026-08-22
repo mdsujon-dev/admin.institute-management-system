@@ -21,7 +21,7 @@ export default function RecentActivityCard({ limit = 6 }: { limit?: number }) {
       title="Recent changes"
       description="The last few things anybody changed"
       extra={
-        <Link to="/logs">
+        <Link to="/logs/activity">
           <Button variant="link" size="sm">
             View all
           </Button>

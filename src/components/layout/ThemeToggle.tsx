@@ -1,4 +1,4 @@
-import { MoonOutlined, SunOutlined } from "@ant-design/icons";
+import { Moon, Sun } from "lucide-react";
 import { Tooltip } from "antd";
 import { Button } from "@/components/ui";
 import { useTheme } from "@/providers/ThemeProvider";
@@ -14,7 +14,7 @@ export default function ThemeToggle() {
         variant="secondary"
         shape="circle"
         aria-label="Toggle theme"
-        icon={isDark ? <SunOutlined /> : <MoonOutlined />}
+        icon={isDark ? <Sun /> : <Moon />}
         onClick={toggleTheme}
       />
     </Tooltip>

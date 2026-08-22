@@ -1,4 +1,4 @@
-import { DownOutlined, KeyOutlined, LogoutOutlined, UserOutlined } from "@ant-design/icons";
+import { ChevronDown, KeyRound, LogOut, User } from "lucide-react";
 import { Dropdown } from "antd";
 import { useNavigate } from "react-router";
 import { InitialsAvatar, Text } from "@/components/ui";
@@ -18,10 +18,10 @@ export default function ProfileMenu() {
       trigger={["click"]}
       menu={{
         items: [
-          { key: "profile", icon: <UserOutlined />, label: "My profile" },
-          { key: "password", icon: <KeyOutlined />, label: "Change password" },
+          { key: "profile", icon: <User />, label: "My profile" },
+          { key: "password", icon: <KeyRound />, label: "Change password" },
           { type: "divider" },
-          { key: "logout", icon: <LogoutOutlined />, label: "Sign out", danger: true },
+          { key: "logout", icon: <LogOut />, label: "Sign out", danger: true },
         ],
         onClick: ({ key }) => {
           if (key === "profile") navigate("/profile");
@@ -40,7 +40,7 @@ export default function ProfileMenu() {
             {user.email}
           </Text>
         </span>
-        <DownOutlined className="text-caption text-gray-400" />
+        <ChevronDown className="text-caption text-gray-400" />
       </button>
     </Dropdown>
   );

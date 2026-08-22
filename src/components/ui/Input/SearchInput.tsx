@@ -1,4 +1,4 @@
-import { SearchOutlined } from "@ant-design/icons";
+import { Search } from "lucide-react";
 import { Input as AntInput } from "antd";
 import type { ControlSize } from "@/components/ui/types";
 import { toAntSize } from "@/components/ui/types";
@@ -29,7 +29,7 @@ export default function SearchInput({
       value={value}
       size={toAntSize(size)}
       placeholder={placeholder}
-      prefix={<SearchOutlined className="text-gray-400" />}
+      prefix={<Search className="text-gray-400" />}
       onChange={(event) => onChange(event.target.value)}
       className={cn("w-full", className)}
     />

@@ -1,7 +1,10 @@
 import type { ColumnsType } from "antd/es/table";
-import { Tag } from "antd";
+import { Tag, Tooltip } from "antd";
+import { KeyRound } from "lucide-react";
+import { Link } from "react-router";
 import RowActions from "@/components/ui/DataTable/RowActions";
-import { Text } from "@/components/ui";
+import Can from "@/components/rbac/Can";
+import { Button, Text } from "@/components/ui";
 import { ALL_PERMISSIONS } from "@/constants/permissions";
 import type { Role } from "@/types/models";
 
@@ -69,14 +72,30 @@ export function useRoleColumns({ onEdit, onDelete }: Options): ColumnsType<Role>
       key: "actions",
       align: "right",
       fixed: "right",
-      width: 96,
+      width: 140,
       render: (_, role) => (
-        <RowActions
-          onEdit={() => onEdit(role)}
-          onDelete={() => onDelete(role)}
-          editPermission="role.update"
-          deletePermission="role.delete"
-        />
+        <div className="flex items-center justify-end gap-2">
+          <Can permission="role.update">
+            <Tooltip title="Permissions">
+              <Link to={`/roles/${role.id}/permissions`}>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  aria-label="Permissions"
+                  className="rounded-[7px]"
+                  icon={<KeyRound />}
+                />
+              </Link>
+            </Tooltip>
+          </Can>
+
+          <RowActions
+            onEdit={() => onEdit(role)}
+            onDelete={() => onDelete(role)}
+            editPermission="role.update"
+            deletePermission="role.delete"
+          />
+        </div>
       ),
     },
   ];

@@ -43,6 +43,25 @@
     @apply bg-brand-100 text-brand-900;
   }
 
+  /* Lucide ships fixed 24px icons; sizing them in `em` makes them behave like
+     the font around them -- which is what lets an icon sit correctly inside an
+     antd Button, a menu row or a heading without being told a pixel size. */
+  .lucide {
+    width: 1em;
+    height: 1em;
+    stroke-width: 1.8;
+  }
+
+  /* The virtual list reads its thumb colour from this variable, so setting it
+     here keeps the dropdown scrollbar the same grey as every other one. */
+  :root {
+    --rc-virtual-list-scrollbar-bg: var(--color-gray-300);
+  }
+
+  .dark {
+    --rc-virtual-list-scrollbar-bg: var(--color-gray-700);
+  }
+
   /* One scrollbar for the whole app: 2px, no track, out of the way. Firefox
      has no pixel control, so `thin` is the closest it offers. */
   * {
@@ -104,6 +123,58 @@
     @apply block truncate;
   }
 
+  /* A collapsed rail is icons only, so they sit in the middle of it. antd sizes
+     its collapsed menu to its own fixed width (96px) rather than to the rail,
+     which is what pushed every glyph off centre. */
+  .ant-menu-inline-collapsed {
+    width: 100% !important;
+  }
+
+  .ant-menu-inline-collapsed > .ant-menu-item,
+  .ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title {
+    @apply flex items-center justify-center;
+    padding-inline: 0 !important;
+  }
+
+  /* The label is gone on a rail, so it must not keep reserving width -- and the
+     icon must not keep the margin that separated it from that label, or the
+     glyph ends up sitting off centre. Matching the svg rather than antd's own
+     icon class covers the lucide icons, which antd does not tag. */
+  .ant-menu-inline-collapsed .ant-menu-title-content {
+    @apply hidden;
+  }
+
+  .ant-menu-inline-collapsed .ant-menu-item svg,
+  .ant-menu-inline-collapsed .ant-menu-submenu-title svg {
+    margin-inline-end: 0 !important;
+    margin-inline-start: 0 !important;
+  }
+
+  /* rc-menu writes the indent of a submenu child as an inline style, so this is
+     the one place an `!important` earns its keep. 24px keeps the child clearly
+     inside its parent without pushing the label into the middle of the rail. */
+  .ant-menu-sub.ant-menu-inline > .ant-menu-item {
+    padding-inline-start: 24px !important;
+    padding-inline-end: 12px !important;
+  }
+
+  /* Popups float a little clear of the control they belong to, so the two do
+     not read as one block. */
+  .ant-select-dropdown,
+  .ant-dropdown,
+  .ant-picker-dropdown {
+    @apply mt-1.5;
+  }
+
+  /* A dropdown scrolls with a virtual list that draws its own bar as a div, so
+     the native 2px rule in `base` cannot reach it. antd prefixes the class per
+     component (`ant-select-dropdown-list-scrollbar`, `ant-tree-list-scrollbar`,
+     ...), which is why this matches on the suffix. The width is an inline style
+     on the element, so it is the one thing here that needs `!important`. */
+  [class*="list-scrollbar"]:not([class*="thumb"]) {
+    width: 2px !important;
+  }
+
   /* Elevation is switched off through antd's own tokens, so the only
      box-shadows left in the app are focus rings -- which must stay, because
      they are how a keyboard user sees where they are. */
@@ -115,6 +186,12 @@
 
   .ant-table-wrapper .ant-table-thead > tr > th {
     @apply text-caption font-medium uppercase tracking-wide;
+  }
+
+  /* The pager keeps the same side gap as the rows above it, so the three parts
+     of a table card share one left and one right edge. */
+  .ant-table-wrapper .ant-pagination.ant-table-pagination {
+    @apply mx-0 px-6;
   }
 
   /* The sticky header of a horizontally scrolling table. */

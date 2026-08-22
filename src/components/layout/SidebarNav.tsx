@@ -88,13 +88,12 @@ export default function SidebarNav({ collapsed, onNavigate }: SidebarNavProps) {
 
   const [openKeys, setOpenKeys] = useState<string[]>([]);
 
-  // Opening a child's page opens the submenu it lives in, without closing
-  // anything the operator opened by hand.
+  // Landing on a child's page opens the submenu it lives in.
   useEffect(() => {
     const parent = parentByKey.get(selectedKey);
 
     if (parent) {
-      setOpenKeys((current) => (current.includes(parent) ? current : [...current, parent]));
+      setOpenKeys([parent]);
     }
   }, [parentByKey, selectedKey]);
 
@@ -106,7 +105,13 @@ export default function SidebarNav({ collapsed, onNavigate }: SidebarNavProps) {
       inlineIndent={16}
       selectedKeys={[selectedKey]}
       openKeys={collapsed ? undefined : openKeys}
-      onOpenChange={(keys) => setOpenKeys(keys as string[])}
+      // One submenu at a time: opening a group closes whichever was open, so the
+      // rail never turns into a wall of expanded lists.
+      onOpenChange={(keys) => {
+        const opened = (keys as string[]).find((key) => !openKeys.includes(key));
+
+        setOpenKeys(opened ? [opened] : []);
+      }}
       inlineCollapsed={collapsed}
       className="border-0 bg-transparent"
       onClick={({ key }) => {

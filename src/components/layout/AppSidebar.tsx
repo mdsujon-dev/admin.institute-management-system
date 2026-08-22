@@ -36,7 +36,14 @@ export default function AppSidebar() {
           <BrandMark collapsed={isCollapsed} />
         </div>
 
-        <div className="no-scrollbar flex-1 overflow-y-auto px-2 py-3">
+        {/* A collapsed rail hands the full width to antd, which centres its own
+            80px menu in it; any padding here would push the icons off centre. */}
+        <div
+          className={cn(
+            "no-scrollbar flex-1 overflow-y-auto py-3",
+            isCollapsed ? "px-0" : "px-2",
+          )}
+        >
           <SidebarNav collapsed={isCollapsed} />
         </div>
 

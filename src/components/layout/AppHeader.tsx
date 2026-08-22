@@ -1,4 +1,4 @@
-import { MenuFoldOutlined, MenuOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import { Menu, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { Button } from "@/components/ui";
 import ProfileMenu from "./ProfileMenu";
 import ThemeToggle from "./ThemeToggle";
@@ -19,14 +19,14 @@ export default function AppHeader() {
             variant="secondary"
             aria-label="Open menu"
             className="lg:hidden"
-            icon={<MenuOutlined />}
+            icon={<Menu />}
             onClick={() => dispatch(mobileNavToggled())}
           />
           <Button
             variant="secondary"
             aria-label="Toggle sidebar"
             className="hidden lg:inline-flex"
-            icon={isCollapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            icon={isCollapsed ? <PanelLeftOpen /> : <PanelLeftClose />}
             onClick={() => dispatch(sidebarToggled())}
           />
         </div>

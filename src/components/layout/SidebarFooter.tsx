@@ -1,4 +1,4 @@
-import { LogoutOutlined } from "@ant-design/icons";
+import { LogOut } from "lucide-react";
 import { Tooltip } from "antd";
 import { Button } from "@/components/ui";
 import { useLogout } from "@/hooks/useLogout";
@@ -28,7 +28,7 @@ export default function SidebarFooter({ collapsed, onDone }: SidebarFooterProps)
           block
           variant="danger-outline"
           loading={isLoggingOut}
-          icon={<LogoutOutlined />}
+          icon={<LogOut />}
           onClick={handleClick}
           className={collapsed ? "justify-center" : "justify-start"}
         >

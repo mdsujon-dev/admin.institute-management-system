@@ -1,23 +1,18 @@
 import {
-  AuditOutlined,
-  ContactsOutlined,
-  DashboardOutlined,
-  IdcardOutlined,
-  KeyOutlined,
-  SafetyCertificateOutlined,
-  SettingOutlined,
-  SolutionOutlined,
-  TeamOutlined,
-  ToolOutlined,
-  UserOutlined,
-  UsergroupAddOutlined,
-} from "@ant-design/icons";
+  GraduationCap,
+  LayoutDashboard,
+  ScrollText,
+  Settings,
+  UsersRound,
+  Wrench,
+} from "lucide-react";
 import type { ReactNode } from "react";
 
 export interface NavItem {
   key: string;
   label: string;
-  icon: ReactNode;
+  /** Top level entries carry an icon; children are identified by their label. */
+  icon?: ReactNode;
   /** Leaf items navigate; a parent with `children` only expands. */
   path?: string;
   /** Hidden unless the account holds this permission. */
@@ -41,13 +36,13 @@ export const NAV_SECTIONS: NavSection[] = [
   {
     key: "overview",
     items: [
-      { key: "dashboard", label: "Dashboard", path: "/", icon: <DashboardOutlined /> },
+      { key: "dashboard", label: "Dashboard", path: "/", icon: <LayoutDashboard /> },
       {
         key: "students",
         label: "Students",
         path: "/students",
         permission: "student.read",
-        icon: <SolutionOutlined />,
+        icon: <GraduationCap />,
       },
     ],
   },
@@ -58,21 +53,25 @@ export const NAV_SECTIONS: NavSection[] = [
       {
         key: "employee-management",
         label: "Employee management",
-        icon: <UsergroupAddOutlined />,
+        icon: <UsersRound />,
         children: [
           {
             key: "employees",
             label: "Employee list",
             path: "/employees",
             permission: "employee.read",
-            icon: <TeamOutlined />,
           },
           {
             key: "designations",
             label: "Designations",
             path: "/designations",
             permission: "designation.read",
-            icon: <ContactsOutlined />,
+          },
+          {
+            key: "roles",
+            label: "Roles",
+            path: "/roles",
+            permission: "role.read",
           },
         ],
       },
@@ -85,30 +84,40 @@ export const NAV_SECTIONS: NavSection[] = [
       {
         key: "master-setup",
         label: "Master setup",
-        icon: <ToolOutlined />,
+        icon: <Wrench />,
         children: [
-          {
-            key: "roles",
-            label: "Roles",
-            path: "/roles",
-            permission: "role.read",
-            icon: <SafetyCertificateOutlined />,
-          },
           {
             key: "users",
             label: "Users",
             path: "/users",
             permission: "user.read",
-            icon: <IdcardOutlined />,
           },
         ],
       },
       {
         key: "logs",
         label: "Logs",
-        path: "/logs",
-        permission: "log.read",
-        icon: <AuditOutlined />,
+        icon: <ScrollText />,
+        children: [
+          {
+            key: "activity-logs",
+            label: "Activity logs",
+            path: "/logs/activity",
+            permission: "log.read",
+          },
+          {
+            key: "error-logs",
+            label: "Error logs",
+            path: "/logs/errors",
+            permission: "log.read",
+          },
+          {
+            key: "sign-in-logs",
+            label: "Sign in logs",
+            path: "/logs/sign-ins",
+            permission: "log.read",
+          },
+        ],
       },
     ],
   },
@@ -119,19 +128,17 @@ export const NAV_SECTIONS: NavSection[] = [
       {
         key: "settings",
         label: "Settings",
-        icon: <SettingOutlined />,
+        icon: <Settings />,
         children: [
           {
             key: "profile",
             label: "My profile",
             path: "/profile",
-            icon: <UserOutlined />,
           },
           {
             key: "change-password",
             label: "Change password",
             path: "/change-password",
-            icon: <KeyOutlined />,
           },
         ],
       },

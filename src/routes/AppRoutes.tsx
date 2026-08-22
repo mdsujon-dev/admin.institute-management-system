@@ -19,7 +19,10 @@ const EmployeesPage = lazy(() => import("@/pages/employees/EmployeesPage"));
 const DesignationsPage = lazy(() => import("@/pages/designations/DesignationsPage"));
 const UsersPage = lazy(() => import("@/pages/users/UsersPage"));
 const RolesPage = lazy(() => import("@/pages/roles/RolesPage"));
-const LogsPage = lazy(() => import("@/pages/logs/LogsPage"));
+const RolePermissionsPage = lazy(() => import("@/pages/roles/RolePermissionsPage"));
+const ActivityLogsPage = lazy(() => import("@/pages/logs/ActivityLogsPage"));
+const ErrorLogsPage = lazy(() => import("@/pages/logs/ErrorLogsPage"));
+const SignInLogsPage = lazy(() => import("@/pages/logs/SignInLogsPage"));
 const ProfilePage = lazy(() => import("@/pages/profile/ProfilePage"));
 const ForbiddenPage = lazy(() => import("@/pages/common/ForbiddenPage"));
 const NotFoundPage = lazy(() => import("@/pages/common/NotFoundPage"));
@@ -80,12 +83,19 @@ export default function AppRoutes() {
         <Route element={<ProtectedRoute permission="role.read" />}>
           <Route element={<AppLayout />}>
             <Route path="/roles" element={<RolesPage />} />
+            <Route
+              path="/roles/:roleId/permissions"
+              element={<RolePermissionsPage />}
+            />
           </Route>
         </Route>
 
         <Route element={<ProtectedRoute permission="log.read" />}>
           <Route element={<AppLayout />}>
-            <Route path="/logs" element={<LogsPage />} />
+            <Route path="/logs" element={<Navigate to="/logs/activity" replace />} />
+            <Route path="/logs/activity" element={<ActivityLogsPage />} />
+            <Route path="/logs/errors" element={<ErrorLogsPage />} />
+            <Route path="/logs/sign-ins" element={<SignInLogsPage />} />
           </Route>
         </Route>
 

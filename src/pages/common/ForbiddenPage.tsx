@@ -1,4 +1,4 @@
-import { LockOutlined } from "@ant-design/icons";
+import { Lock } from "lucide-react";
 import { Link } from "react-router";
 import { Button } from "@/components/ui";
 import PageMeta from "@/components/common/PageMeta";
@@ -13,7 +13,7 @@ export default function ForbiddenPage() {
     <>
       <PageMeta title="Not allowed" description="You do not have access to this page" />
       <MessagePage
-        icon={<LockOutlined />}
+        icon={<Lock />}
         tone="danger"
         title="You do not have access to this page"
         description="Your role does not include the permission this screen needs. Ask an administrator if you think that is wrong."

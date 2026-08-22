@@ -1,4 +1,4 @@
-import { ExclamationCircleFilled } from "@ant-design/icons";
+import { TriangleAlert } from "lucide-react";
 import Button from "@/components/ui/Button/Button";
 import Heading from "@/components/ui/Typography/Heading";
 import Text from "@/components/ui/Typography/Text";
@@ -50,7 +50,7 @@ export default function ConfirmModal({
     >
       <div className="flex gap-3">
         <span className={tone === "danger" ? "text-h4 text-error-500" : "text-h4 text-brand-500"}>
-          <ExclamationCircleFilled />
+          <TriangleAlert />
         </span>
         <div>
           <Heading level={5}>{title}</Heading>

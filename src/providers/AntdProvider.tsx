@@ -90,6 +90,7 @@ export default function AntdProvider({ children }: { children: ReactNode }) {
             itemPaddingInline: 12,
             iconMarginInlineEnd: 15,
             fontSize: 15,
+            subMenuItemBg: "transparent",
           },
             Card: { paddingLG: 20 },
           },
