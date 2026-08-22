@@ -1,4 +1,4 @@
-import { ChevronDown, KeyRound, LogOut, User } from "lucide-react";
+import { KeyRound, LogOut, User } from "lucide-react";
 import { Dropdown } from "antd";
 import { useNavigate } from "react-router";
 import { InitialsAvatar, Text } from "@/components/ui";
@@ -31,7 +31,7 @@ export default function ProfileMenu() {
       }}
     >
       <button type="button" className="flex items-center gap-2 rounded-lg px-1 py-1">
-        <InitialsAvatar name={user.email} size="sm" />
+        <InitialsAvatar name={user.email} />
         <span className="hidden min-w-0 max-w-44 text-left sm:block">
           <Text size="body-sm" weight="medium" truncate>
             {user.email.split("@")[0]}
@@ -40,7 +40,6 @@ export default function ProfileMenu() {
             {user.email}
           </Text>
         </span>
-        <ChevronDown className="text-caption text-gray-400" />
       </button>
     </Dropdown>
   );

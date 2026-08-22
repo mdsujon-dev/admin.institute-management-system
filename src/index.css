@@ -181,9 +181,9 @@
      difference, keeping every label -- parent and child -- on the same left
      edge. */
   .ant-menu-sub.ant-menu-inline > .ant-menu-item {
-    margin-inline-start: 10px !important;
+    margin-inline-start: 25px !important;
     margin-inline-end: 10px !important;
-    padding-inline-start: 34px !important;
+    padding-inline-start: 19px !important;
     padding-inline-end: 12px !important;
     width: auto !important;
   }

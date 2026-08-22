@@ -1,5 +1,8 @@
 import { Menu, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { Button } from "@/components/ui";
+import FullscreenToggle from "./FullscreenToggle";
+import HeaderClock from "./HeaderClock";
+import NotificationMenu from "./NotificationMenu";
 import ProfileMenu from "./ProfileMenu";
 import ThemeToggle from "./ThemeToggle";
 import { sidebarToggled, mobileNavToggled } from "@/redux/features/ui/uiSlice";
@@ -36,6 +39,9 @@ export default function AppHeader() {
         </div>
 
         <div className="flex items-center gap-2 sm:gap-3">
+          <HeaderClock />
+          <NotificationMenu />
+          <FullscreenToggle />
           <ThemeToggle />
           <ProfileMenu />
         </div>
