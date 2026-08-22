@@ -1,9 +1,3 @@
-import {
-  ContactsOutlined,
-  IdcardOutlined,
-  SolutionOutlined,
-  TeamOutlined,
-} from "@ant-design/icons";
 import StatCard from "@/components/card/StatCard";
 import { usePermissions } from "@/hooks/usePermissions";
 import { useGetDesignationsQuery } from "@/redux/features/designations/designations.api";
@@ -35,7 +29,6 @@ export default function StatGrid() {
         <StatCard
           label="Students"
           tone="brand"
-          icon={<SolutionOutlined />}
           value={formatNumber(students.data?.meta.total)}
           isLoading={students.isLoading}
         />
@@ -45,7 +38,6 @@ export default function StatGrid() {
         <StatCard
           label="Employees"
           tone="info"
-          icon={<TeamOutlined />}
           value={formatNumber(employees.data?.meta.total)}
           isLoading={employees.isLoading}
         />
@@ -55,7 +47,6 @@ export default function StatGrid() {
         <StatCard
           label="Login accounts"
           tone="success"
-          icon={<IdcardOutlined />}
           value={formatNumber(users.data?.meta.total)}
           isLoading={users.isLoading}
         />
@@ -65,7 +56,6 @@ export default function StatGrid() {
         <StatCard
           label="Designations"
           tone="warning"
-          icon={<ContactsOutlined />}
           value={formatNumber(designations.data?.meta.total)}
           isLoading={designations.isLoading}
         />

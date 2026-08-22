@@ -79,7 +79,9 @@ export default function AntdProvider({ children }: { children: ReactNode }) {
               borderColor: isDark ? "#1d2939" : "#e4e7ec",
             },
             Modal: { titleFontSize: 18 },
-            Menu: { itemBorderRadius: 8, itemMarginInline: 0 },
+            // A menu row is 38px: two pixels tighter than the default control
+          // height, which fits one more item on a short laptop screen.
+          Menu: { itemBorderRadius: 8, itemMarginInline: 0, itemHeight: 38 },
             Card: { paddingLG: 20 },
           },
         }}

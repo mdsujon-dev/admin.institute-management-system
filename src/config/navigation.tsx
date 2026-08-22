@@ -7,16 +7,19 @@ import {
   SolutionOutlined,
   TeamOutlined,
   UserOutlined,
+  UsergroupAddOutlined,
 } from "@ant-design/icons";
 import type { ReactNode } from "react";
 
 export interface NavItem {
   key: string;
   label: string;
-  path: string;
   icon: ReactNode;
-  /** Hidden from the menu unless the account holds this permission. */
+  /** Leaf items navigate; a parent with `children` only expands. */
+  path?: string;
+  /** Hidden unless the account holds this permission. */
   permission?: string;
+  children?: NavItem[];
 }
 
 export interface NavSection {
@@ -29,7 +32,7 @@ export interface NavSection {
  * The whole menu, in one list. Each entry names the permission behind the screen
  * it points at, and the sidebar hides anything the current role cannot reach --
  * the same codes `ProtectedRoute` checks, so the menu can never offer a page
- * that would answer 403.
+ * that would answer 403. A parent disappears once all of its children have.
  */
 export const NAV_SECTIONS: NavSection[] = [
   {
@@ -41,12 +44,6 @@ export const NAV_SECTIONS: NavSection[] = [
         path: "/",
         icon: <DashboardOutlined />,
       },
-    ],
-  },
-  {
-    key: "people",
-    title: "People",
-    items: [
       {
         key: "students",
         label: "Students",
@@ -54,19 +51,39 @@ export const NAV_SECTIONS: NavSection[] = [
         permission: "student.read",
         icon: <SolutionOutlined />,
       },
+    ],
+  },
+  {
+    key: "staff",
+    title: "Staff",
+    items: [
       {
-        key: "employees",
-        label: "Employees",
-        path: "/employees",
-        permission: "employee.read",
-        icon: <TeamOutlined />,
-      },
-      {
-        key: "designations",
-        label: "Designations",
-        path: "/designations",
-        permission: "designation.read",
-        icon: <ContactsOutlined />,
+        key: "employee-management",
+        label: "Employee management",
+        icon: <UsergroupAddOutlined />,
+        children: [
+          {
+            key: "employees",
+            label: "Employee list",
+            path: "/employees",
+            permission: "employee.read",
+            icon: <TeamOutlined />,
+          },
+          {
+            key: "designations",
+            label: "Designations",
+            path: "/designations",
+            permission: "designation.read",
+            icon: <ContactsOutlined />,
+          },
+          {
+            key: "roles",
+            label: "Roles",
+            path: "/roles",
+            permission: "role.read",
+            icon: <SafetyCertificateOutlined />,
+          },
+        ],
       },
     ],
   },
@@ -80,13 +97,6 @@ export const NAV_SECTIONS: NavSection[] = [
         path: "/users",
         permission: "user.read",
         icon: <IdcardOutlined />,
-      },
-      {
-        key: "roles",
-        label: "Roles",
-        path: "/roles",
-        permission: "role.read",
-        icon: <SafetyCertificateOutlined />,
       },
       {
         key: "logs",
