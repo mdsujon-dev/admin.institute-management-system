@@ -1,0 +1,102 @@
+/**
+ * Layer order, declared before anything else so it actually takes effect.
+ *
+ * Ant Design injects its styles at runtime, which means they land *after* the
+ * stylesheet and would win every specificity tie -- a `lg:hidden` on an antd
+ * Button would simply not apply. Naming `antd` first puts it at the bottom of
+ * the cascade, so Tailwind utilities can override component defaults. The other
+ * half of this is `<StyleProvider layer>` in `providers/AntdProvider.tsx`.
+ */
+@layer antd, theme, base, components, utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap") layer(base);
+@import "tailwindcss";
+@import "./styles/theme.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/**
+ * Surfaces are drawn with borders, never with shadows or gradients: one flat
+ * plane, one border colour, one radius scale. Depth comes from spacing and
+ * contrast instead, which stays readable in both themes and on every screen.
+ */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-gray-50 font-sans text-body text-gray-700 antialiased;
+    @apply dark:bg-gray-950 dark:text-gray-300;
+  }
+
+  /* Tailwind v4 preflight sets buttons back to the browser default cursor.
+     Anything clickable should say so. */
+  button:not(:disabled),
+  [role="button"]:not(:disabled),
+  summary,
+  label[for] {
+    cursor: pointer;
+  }
+
+  ::selection {
+    @apply bg-brand-100 text-brand-900;
+  }
+}
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/** Thin scrollbar for panels that scroll inside the page (menus, tables). */
+@utility thin-scrollbar {
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-gray-300 dark:bg-gray-700;
+  }
+}
+
+/**
+ * Ant Design overrides. Kept to the few places where a component's default
+ * chrome fights the flat look above; everything else is configured with tokens
+ * in `providers/AntdProvider.tsx` rather than with CSS.
+ */
+@layer components {
+  .ant-table-wrapper .ant-table {
+    background: transparent;
+  }
+
+  /* Elevation is switched off through antd's own tokens, so the only
+     box-shadows left in the app are focus rings -- which must stay, because
+     they are how a keyboard user sees where they are. */
+  .ant-dropdown-menu,
+  .ant-picker-dropdown .ant-picker-panel-container,
+  .ant-select-dropdown {
+    @apply border border-gray-200 dark:border-gray-800;
+  }
+
+  .ant-table-wrapper .ant-table-thead > tr > th {
+    @apply text-caption font-medium uppercase tracking-wide;
+  }
+
+  /* The sticky header of a horizontally scrolling table. */
+  .ant-table-wrapper .ant-table-cell-fix-right,
+  .ant-table-wrapper .ant-table-cell-fix-left {
+    @apply bg-white dark:bg-gray-900;
+  }
+}

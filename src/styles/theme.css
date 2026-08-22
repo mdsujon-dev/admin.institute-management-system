@@ -1,0 +1,135 @@
+/**
+ * The design tokens for the whole console. Every colour, type size and radius
+ * used anywhere in the app resolves to something declared here, so a change in
+ * this file is a change everywhere -- there are no local overrides to hunt down.
+ *
+ * The same numbers are handed to Ant Design in `providers/AntdProvider.tsx`, so
+ * an antd Button and a Tailwind div agree on what "large radius" means.
+ */
+@theme {
+  --font-*: initial;
+  --font-sans: Outfit, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --breakpoint-*: initial;
+  --breakpoint-xs: 480px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
+  /* ---------------------------------------------------------------------
+   * Type scale. h1 down to h6, then body, then the two smaller sizes.
+   * Nothing in the app sets a font size directly: it uses `text-h3`,
+   * `text-body`, `text-caption` and so on, which is why resizing the scale
+   * here resizes every screen at once.
+   * ------------------------------------------------------------------ */
+  --text-h1: 1.75rem;
+  --text-h1--line-height: 2.25rem;
+  --text-h1--font-weight: 600;
+  --text-h1--letter-spacing: -0.02em;
+
+  --text-h2: 1.5rem;
+  --text-h2--line-height: 2rem;
+  --text-h2--font-weight: 600;
+  --text-h2--letter-spacing: -0.015em;
+
+  --text-h3: 1.25rem;
+  --text-h3--line-height: 1.75rem;
+  --text-h3--font-weight: 600;
+
+  --text-h4: 1.125rem;
+  --text-h4--line-height: 1.625rem;
+  --text-h4--font-weight: 600;
+
+  --text-h5: 1rem;
+  --text-h5--line-height: 1.5rem;
+  --text-h5--font-weight: 600;
+
+  --text-h6: 0.875rem;
+  --text-h6--line-height: 1.25rem;
+  --text-h6--font-weight: 600;
+
+  --text-body-lg: 1rem;
+  --text-body-lg--line-height: 1.5rem;
+
+  --text-body: 0.875rem;
+  --text-body--line-height: 1.375rem;
+
+  --text-body-sm: 0.8125rem;
+  --text-body-sm--line-height: 1.25rem;
+
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.125rem;
+
+  /* ---------------------------------------------------------------------
+   * Layout. The sidebar's brand block and the page header are the same bar
+   * seen either side of the divider, so they read from one height.
+   * ------------------------------------------------------------------ */
+  --layout-header-height: 4rem;
+
+  /* ---------------------------------------------------------------------
+   * Radius. Four steps, matched one for one to the antd tokens.
+   * ------------------------------------------------------------------ */
+  --radius-*: initial;
+  /* Controls (inputs, buttons, selects) are 7px -- see AntdProvider, which is
+     handed the same number. Containers step up from there. */
+  --radius-control: 7px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* ---------------------------------------------------------------------
+   * Colour. `brand` is the primary; changing brand-500 re-skins the console
+   * and antd along with it.
+   * ------------------------------------------------------------------ */
+  --color-brand-25: #f2fbfc;
+  --color-brand-50: #e6f5f9;
+  --color-brand-100: #c3e8f0;
+  --color-brand-200: #97d6e4;
+  --color-brand-300: #63bed2;
+  --color-brand-400: #2f9db8;
+  --color-brand-500: #0e7490;
+  --color-brand-600: #0b6379;
+  --color-brand-700: #0a5263;
+  --color-brand-800: #08424f;
+  --color-brand-900: #073541;
+  --color-brand-950: #042129;
+
+  --color-gray-25: #fcfcfd;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f2f4f7;
+  --color-gray-200: #e4e7ec;
+  --color-gray-300: #d0d5dd;
+  --color-gray-400: #98a2b3;
+  --color-gray-500: #667085;
+  --color-gray-600: #475467;
+  --color-gray-700: #344054;
+  --color-gray-800: #1d2939;
+  --color-gray-900: #101828;
+  --color-gray-950: #0c111d;
+
+  --color-success-50: #ecfdf3;
+  --color-success-100: #d1fadf;
+  --color-success-500: #12b76a;
+  --color-success-600: #039855;
+  --color-success-700: #027a48;
+
+  --color-warning-50: #fffaeb;
+  --color-warning-100: #fef0c7;
+  --color-warning-500: #f79009;
+  --color-warning-600: #dc6803;
+  --color-warning-700: #b54708;
+
+  --color-error-50: #fef3f2;
+  --color-error-100: #fee4e2;
+  --color-error-500: #f04438;
+  --color-error-600: #d92d20;
+  --color-error-700: #b42318;
+
+  --color-info-50: #eff8ff;
+  --color-info-500: #2e90fa;
+  --color-info-600: #1570ef;
+}
