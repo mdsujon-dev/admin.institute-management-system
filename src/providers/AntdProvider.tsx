@@ -73,6 +73,13 @@ export default function AntdProvider({ children }: { children: ReactNode }) {
             Select: CONTROL_RADIUS,
             DatePicker: CONTROL_RADIUS,
             Table: {
+              // The side gap of a row. 24px on every size, so the first column
+              // lines up with the toolbar above it and the pager below it -- the
+              // three parts of a table card share one left and one right edge.
+              cellPaddingInline: 24,
+              cellPaddingInlineMD: 24,
+              cellPaddingInlineSM: 24,
+              cellPaddingBlockMD: 14,
               headerBg: isDark ? "#101828" : "#f9fafb",
               headerColor: isDark ? "#98a2b3" : "#667085",
               rowHoverBg: isDark ? "#101828" : "#f9fafb",
@@ -88,7 +95,7 @@ export default function AntdProvider({ children }: { children: ReactNode }) {
             itemMarginInline: 0,
             itemHeight: 38,
             itemPaddingInline: 12,
-            iconMarginInlineEnd: 15,
+            iconMarginInlineEnd: 10,
             fontSize: 15,
             subMenuItemBg: "transparent",
           },

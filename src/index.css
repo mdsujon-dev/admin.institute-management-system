@@ -150,11 +150,19 @@
     margin-inline-start: 0 !important;
   }
 
+  /* A submenu row reserves room for its arrow, so a long label runs out of
+     space -- and shows its ellipsis -- before it reaches the chevron instead of
+     ending right against it. */
+  .ant-menu-submenu-title {
+    padding-inline-end: 32px !important;
+  }
+
   /* rc-menu writes the indent of a submenu child as an inline style, so this is
-     the one place an `!important` earns its keep. 24px keeps the child clearly
-     inside its parent without pushing the label into the middle of the rail. */
+     the one place an `!important` earns its keep. 41px lands a child's label on
+     exactly the same left edge as its parent's label, so the group reads as one
+     column of text with the parent's icon hanging off the front of it. */
   .ant-menu-sub.ant-menu-inline > .ant-menu-item {
-    padding-inline-start: 24px !important;
+    padding-inline-start: 41px !important;
     padding-inline-end: 12px !important;
   }
 
