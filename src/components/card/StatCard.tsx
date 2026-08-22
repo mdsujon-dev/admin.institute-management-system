@@ -77,7 +77,7 @@ export default function StatCard({
 
         <span
           className={cn(
-            "flex size-12 shrink-0 items-center justify-center rounded-xl bg-white text-h3",
+            "flex size-10 shrink-0 items-center justify-center rounded-lg bg-white text-h4",
             {
               brand: "text-brand-500",
               info: "text-info-700",

@@ -15,9 +15,9 @@ import { useTheme } from "./ThemeProvider";
  */
 /** One radius for every control, applied to each component that draws one. */
 const CONTROL_RADIUS = {
-  borderRadius: 7,
-  borderRadiusLG: 7,
-  borderRadiusSM: 7,
+  borderRadius: 9,
+  borderRadiusLG: 9,
+  borderRadiusSM: 9,
 } as const;
 
 export default function AntdProvider({ children }: { children: ReactNode }) {
@@ -80,8 +80,15 @@ export default function AntdProvider({ children }: { children: ReactNode }) {
             },
             Modal: { titleFontSize: 18 },
             // A menu row is 38px: two pixels tighter than the default control
-          // height, which fits one more item on a short laptop screen.
-          Menu: { itemBorderRadius: 8, itemMarginInline: 0, itemHeight: 38 },
+          // height, which fits one more item on a short laptop screen. The
+          // label sits 13px from its icon, which is what stops the row reading
+          // as one blob at a glance.
+          Menu: {
+            itemBorderRadius: 8,
+            itemMarginInline: 0,
+            itemHeight: 38,
+            iconMarginInlineEnd: 13,
+          },
             Card: { paddingLG: 20 },
           },
         }}

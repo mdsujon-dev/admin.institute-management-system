@@ -91,6 +91,13 @@
     background: transparent;
   }
 
+  /* A navigation label is a heading for the page behind it, so it carries a
+     little more weight than body text. */
+  .ant-menu-item,
+  .ant-menu-submenu-title {
+    @apply font-medium;
+  }
+
   /* Elevation is switched off through antd's own tokens, so the only
      box-shadows left in the app are focus rings -- which must stay, because
      they are how a keyboard user sees where they are. */
