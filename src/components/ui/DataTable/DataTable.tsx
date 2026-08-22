@@ -66,7 +66,8 @@ export default function DataTable<T extends object>({
     return <ErrorState message={errorMessage} onRetry={onRetry} />;
   }
 
-  const pagination: TablePaginationConfig | false = meta
+  // Nothing to page through on a single page, so the whole control goes away.
+  const pagination: TablePaginationConfig | false = meta && meta.totalPages > 1
     ? {
         current: meta.page,
         pageSize: meta.limit,

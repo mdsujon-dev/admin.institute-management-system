@@ -37,7 +37,7 @@ export default function Card({
   return (
     <section
       className={cn(
-        "rounded-lg border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900",
+        "overflow-hidden rounded-lg border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900",
         className,
       )}
     >

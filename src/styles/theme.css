@@ -24,26 +24,26 @@
    * `text-body`, `text-caption` and so on, which is why resizing the scale
    * here resizes every screen at once.
    * ------------------------------------------------------------------ */
-  --text-h1: 1.75rem;
-  --text-h1--line-height: 2.25rem;
+  --text-h1: 1.5rem;
+  --text-h1--line-height: 2rem;
   --text-h1--font-weight: 600;
   --text-h1--letter-spacing: -0.02em;
 
-  --text-h2: 1.5rem;
-  --text-h2--line-height: 2rem;
+  --text-h2: 1.25rem;
+  --text-h2--line-height: 1.75rem;
   --text-h2--font-weight: 600;
   --text-h2--letter-spacing: -0.015em;
 
-  --text-h3: 1.25rem;
-  --text-h3--line-height: 1.75rem;
+  --text-h3: 1.125rem;
+  --text-h3--line-height: 1.625rem;
   --text-h3--font-weight: 600;
 
-  --text-h4: 1.125rem;
-  --text-h4--line-height: 1.625rem;
+  --text-h4: 1rem;
+  --text-h4--line-height: 1.5rem;
   --text-h4--font-weight: 600;
 
-  --text-h5: 1rem;
-  --text-h5--line-height: 1.5rem;
+  --text-h5: 0.9375rem;
+  --text-h5--line-height: 1.375rem;
   --text-h5--font-weight: 600;
 
   --text-h6: 0.875rem;
@@ -132,4 +132,5 @@
   --color-info-50: #eff8ff;
   --color-info-500: #2e90fa;
   --color-info-600: #1570ef;
+  --color-info-700: #175cd3;
 }

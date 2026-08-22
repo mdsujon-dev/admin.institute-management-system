@@ -23,7 +23,7 @@ export default function AppLayout() {
       >
         <AppHeader />
 
-        <main className="mx-auto w-full max-w-[1600px] flex-1 p-4 sm:p-6">
+        <main className="mx-auto w-full max-w-[1600px] flex-1 p-3 sm:p-4">
           <Outlet />
         </main>
       </div>

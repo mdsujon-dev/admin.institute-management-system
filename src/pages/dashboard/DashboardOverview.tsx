@@ -11,11 +11,11 @@ import StudentList from "@/pages/students/StudentList";
  */
 export default function DashboardOverview() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <StatGrid />
 
       <Can permission="log.read">
-        <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
           <div className="xl:col-span-2">
             <RecentActivityCard />
           </div>

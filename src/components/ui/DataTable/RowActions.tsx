@@ -16,8 +16,9 @@ interface RowActionsProps {
 }
 
 /**
- * The trailing actions of every table row. Each button is wrapped in the
- * permission it needs, so a role without `*.delete` simply never sees a bin.
+ * The trailing actions of every table row. Each is a bordered button so it
+ * reads as a control rather than as decoration, and each is wrapped in the
+ * permission it needs -- a role without `*.delete` never sees a bin.
  */
 export default function RowActions({
   onView,
@@ -31,11 +32,17 @@ export default function RowActions({
   const locked = Boolean(lockedReason);
 
   return (
-    <div className="flex items-center justify-end gap-1">
+    <div className="flex items-center justify-end gap-2">
       {onView && (
         <Can permission={viewPermission}>
           <Tooltip title="View">
-            <Button variant="ghost" size="sm" icon={<EyeOutlined />} onClick={onView} />
+            <Button
+              variant="secondary"
+              size="sm"
+              aria-label="View"
+              icon={<EyeOutlined />}
+              onClick={onView}
+            />
           </Tooltip>
         </Can>
       )}
@@ -44,8 +51,9 @@ export default function RowActions({
         <Can permission={editPermission}>
           <Tooltip title={lockedReason ?? "Edit"}>
             <Button
-              variant="ghost"
+              variant="secondary"
               size="sm"
+              aria-label="Edit"
               icon={<EditOutlined />}
               disabled={locked}
               onClick={onEdit}
@@ -58,9 +66,9 @@ export default function RowActions({
         <Can permission={deletePermission}>
           <Tooltip title={lockedReason ?? "Delete"}>
             <Button
-              variant="ghost"
+              variant="danger-outline"
               size="sm"
-              danger
+              aria-label="Delete"
               icon={<DeleteOutlined />}
               disabled={locked}
               onClick={onDelete}

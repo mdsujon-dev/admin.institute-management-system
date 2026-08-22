@@ -5,7 +5,13 @@ import { cn } from "@/utils/cn";
 import type { ControlSize } from "@/components/ui/types";
 import { toAntSize } from "@/components/ui/types";
 
-export type ButtonVariant = "primary" | "secondary" | "danger" | "ghost" | "link";
+export type ButtonVariant =
+  | "primary"
+  | "secondary"
+  | "danger"
+  | "danger-outline"
+  | "ghost"
+  | "link";
 
 export interface ButtonProps
   extends Omit<AntButtonProps, "size" | "type" | "variant" | "color"> {
@@ -16,19 +22,28 @@ export interface ButtonProps
 }
 
 /**
- * The one button. Five intents, three sizes, nothing else -- so two screens can
- * never disagree about what a destructive action looks like.
+ * The one button in the app. Six intents, three sizes, nothing else -- so two
+ * screens can never disagree about what a destructive action looks like.
  *
- * `primary` carries the brand colour and is the default: it is the action a
- * screen wants you to take. `secondary` is its outlined companion, `ghost` is
- * for toolbars and table rows, `danger` is only ever a delete.
+ * `primary` carries the brand colour and is the action a screen wants you to
+ * take. `secondary` is its outlined companion. `danger` is a confirmed delete;
+ * `danger-outline` is the one that *offers* a delete -- a red border over a pale
+ * red fill, so it reads as dangerous without shouting from inside a table row.
  */
-const VARIANT_PROPS: Record<ButtonVariant, Partial<AntButtonProps>> = {
-  primary: { type: "primary" },
-  secondary: { type: "default" },
-  danger: { type: "primary", danger: true },
-  ghost: { type: "text" },
-  link: { type: "link" },
+const VARIANT: Record<
+  ButtonVariant,
+  { props: Partial<AntButtonProps>; className?: string }
+> = {
+  primary: { props: { color: "primary", variant: "solid" } },
+  secondary: { props: { color: "default", variant: "outlined" } },
+  danger: { props: { color: "danger", variant: "solid" } },
+  "danger-outline": {
+    props: { color: "danger", variant: "outlined" },
+    // antd's outlined variant is transparent; the pale fill is ours.
+    className: "bg-error-50 dark:bg-error-500/10",
+  },
+  ghost: { props: { color: "default", variant: "text" } },
+  link: { props: { color: "primary", variant: "link" } },
 };
 
 export default function Button({
@@ -38,12 +53,14 @@ export default function Button({
   children,
   ...rest
 }: ButtonProps) {
+  const { props, className: variantClassName } = VARIANT[variant];
+
   return (
     <AntButton
-      {...VARIANT_PROPS[variant]}
+      {...props}
       {...rest}
       size={toAntSize(size)}
-      className={cn("font-medium", className)}
+      className={cn("font-medium", variantClassName, className)}
     >
       {children}
     </AntButton>
